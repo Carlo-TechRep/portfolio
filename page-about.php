@@ -113,7 +113,7 @@ get_header();
     <?php
     $team_members = array(
         array( 'role' => 'Project Manager', 'name' => 'Wilan Jomart J. Satur', 'id' => '2023-1-00000', 'address' => 'Luyong Bonbon, Opol, Misamis Oriental', 'image' => 'Wilan Jomart J. Satur/profile.png' ),
-        array( 'role' => 'Data Analyst', 'name' => 'Jhon Phillip V. Polison', 'id' => '2023-1-05034', 'address' => 'Amoros, City of El Salvador', 'image' => 'Jhon Phillip V. Polison/profile.png' ),
+        array( 'role' => 'System Analyst', 'name' => 'Jhon Phillip V. Polison', 'id' => '2023-1-05034', 'address' => 'Amoros, City of El Salvador', 'image' => 'Jhon Phillip V. Polison/profile.png' ),
         array( 'role' => 'Programmer', 'name' => 'Carlo A. Nacua', 'id' => '2023-1-04974', 'address' => 'Luyong Bonbon, Opol, Misamis Oriental', 'image' => 'Carlo A. Nacua/profile.png' ),
         array( 'role' => 'Technical Writer', 'name' => 'Jay Vee C. Bahian', 'id' => '2023-1-05380', 'address' => 'Cogon, City of El Salvador', 'image' => 'Jay Vee C. Bahian/profile.png' ),
     );

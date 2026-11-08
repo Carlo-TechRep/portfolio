@@ -2581,8 +2581,8 @@ function navid_sanitize_select( $input, $setting ) {
  * Dynamic CSS output based on customizer settings
  */
 function navid_dynamic_css() {
-    $heading_font   = get_theme_mod( 'navid_heading_font', 'Playfair Display' );
-    $body_font      = get_theme_mod( 'navid_body_font', 'Inter' );
+    $heading_font   = 'Fraunces';
+    $body_font      = 'Fraunces';
     $custom_heading = get_theme_mod( 'navid_custom_heading_font', '' );
     $custom_body    = get_theme_mod( 'navid_custom_body_font', '' );
     

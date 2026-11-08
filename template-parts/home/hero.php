@@ -53,7 +53,7 @@ if ( has_action( "navid_render_hero_{$hero_layout}" ) ) {
 
     // Team landing-page message.
     $hero_title   = 'Building the Future, Together.';
-    $hero_excerpt = 'Project Manager · Data Analyst · Programmer · Technical Writer';
+    $hero_excerpt = 'Project Manager · System Analyst · Programmer · Technical Writer';
 ?>
 <section class="hero-section">
   <div class="hero-bg">

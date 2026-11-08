@@ -538,4 +538,166 @@
     });
   });
 
+  // Scroll-linked falling reveal for the four Home team cards.
+  var homeTeamSection = document.querySelector('.navid-home-team-section');
+  // Reveal the team cards as the section is pinned during scrolling.
+  var enablePinnedTeamReveal = true;
+  if (enablePinnedTeamReveal && homeTeamSection && window.gsap && window.ScrollTrigger) {
+    var fallingTeamCards = Array.prototype.slice.call(homeTeamSection.querySelectorAll('.team-card-fall'));
+    var teamStage = homeTeamSection.querySelector('.navid-team-scroll-stage');
+
+    if (fallingTeamCards.length === 4 && teamStage) {
+      gsap.registerPlugin(ScrollTrigger);
+
+      var teamMedia = gsap.matchMedia();
+      teamMedia.add({
+        desktop: '(min-width: 901px)',
+        reduce: '(prefers-reduced-motion: reduce)'
+      }, function(context) {
+        var shouldAnimate = context.conditions.desktop && !context.conditions.reduce;
+
+        if (!shouldAnimate) {
+          gsap.set(fallingTeamCards, { clearProps: 'all' });
+          fallingTeamCards.forEach(function(card) {
+            card.setAttribute('tabindex', '0');
+          });
+          return;
+        }
+
+        homeTeamSection.classList.add('team-scroll-ready');
+        gsap.set(fallingTeamCards, {
+          y: -300,
+          autoAlpha: 0,
+          filter: 'blur(5px)'
+        });
+
+        var timeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: homeTeamSection,
+            start: 'top top',
+            end: '+=300%',
+            // Pin the complete section so its background travels with the
+            // cards instead of leaving the cards over the hero underneath.
+            pin: homeTeamSection,
+            scrub: 1,
+            anticipatePin: 1,
+            invalidateOnRefresh: true
+          }
+        });
+
+        fallingTeamCards.forEach(function(card) {
+          timeline.to(card, {
+            y: 0,
+            autoAlpha: 1,
+            filter: 'blur(0px)',
+            duration: 1,
+            ease: 'power2.out',
+            onStart: function() { card.setAttribute('tabindex', '0'); }
+          });
+        });
+
+        return function() {
+          homeTeamSection.classList.remove('team-scroll-ready');
+          gsap.set(fallingTeamCards, { clearProps: 'all' });
+        };
+      });
+    }
+  } else if (homeTeamSection) {
+    // Do not hide cards if a vendor file is unavailable.
+    homeTeamSection.classList.remove('team-scroll-ready');
+  }
+
+  // Services portfolio: reveal each profile card as it enters the viewport.
+  var servicesSection = document.querySelector('.navid-services-section');
+  if (servicesSection && window.gsap && window.ScrollTrigger && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var serviceCards = servicesSection.querySelectorAll('.navid-service-card');
+    if (serviceCards.length) {
+      gsap.registerPlugin(ScrollTrigger);
+      var serviceCardGroups = [
+        Array.prototype.slice.call(serviceCards, 0, 2),
+        Array.prototype.slice.call(serviceCards, 2)
+      ];
+      var serviceContent = Array.prototype.slice.call(servicesSection.querySelectorAll('.navid-service-photo, .navid-service-card-content'));
+      var serviceContentGroups = [serviceContent.slice(0, 4), serviceContent.slice(4)];
+      var servicesReveal = gsap.timeline({
+        scrollTrigger: {
+          trigger: servicesSection,
+          start: 'top 82%',
+          toggleActions: 'play none none reverse'
+        }
+      });
+
+      function addServiceGroup(cards, content, position) {
+        servicesReveal.from(cards, {
+          y: 64,
+          autoAlpha: 0,
+          filter: 'blur(4px)',
+          duration: 0.9,
+          ease: 'power3.out',
+          stagger: 0.12
+        }, position).from(content, {
+        y: 20,
+        autoAlpha: 0,
+        duration: 0.65,
+        ease: 'power2.out',
+        stagger: 0.08
+        }, '<0.18');
+      }
+
+      addServiceGroup(serviceCardGroups[0], serviceContentGroups[0], 0);
+      addServiceGroup(serviceCardGroups[1], serviceContentGroups[1], '+=0.25');
+
+      servicesSection.querySelectorAll('.navid-service-photo').forEach(function(photo) {
+        photo.addEventListener('mouseenter', function() {
+          gsap.to(photo, { scale: 1.08, duration: 0.35, ease: 'power2.out', overwrite: 'auto' });
+        });
+        photo.addEventListener('mouseleave', function() {
+          gsap.to(photo, { scale: 1, duration: 0.35, ease: 'power2.out', overwrite: 'auto' });
+        });
+      });
+    }
+  }
+
+  // Move the navigation underline as the visitor reaches the one-page sections.
+  var onePageMenu = document.querySelector('.nav-menu');
+  var onePageSections = document.querySelectorAll('#about, #contact');
+  if (onePageMenu && onePageSections.length) {
+
+    function setActiveSection(sectionId) {
+      var activeItem = null;
+      onePageMenu.querySelectorAll('li').forEach(function(item) {
+        var link = item.querySelector('a');
+        if (!link) return;
+        var hash = link.hash;
+        var isActive = hash === '#' + sectionId;
+        item.classList.toggle('is-scroll-active', isActive);
+        if (isActive) activeItem = item;
+      });
+      onePageMenu.classList.toggle('has-scroll-active', !!activeItem);
+    }
+
+    function updateOnePageNavigation() {
+      var scrollMarker = window.scrollY + 150;
+      var currentSection = null;
+
+      onePageSections.forEach(function(section) {
+        if (section.offsetTop <= scrollMarker) {
+          currentSection = section.id;
+        }
+      });
+
+      if (currentSection) {
+        setActiveSection(currentSection);
+      } else {
+        onePageMenu.classList.remove('has-scroll-active');
+        onePageMenu.querySelectorAll('.is-scroll-active').forEach(function(item) {
+          item.classList.remove('is-scroll-active');
+        });
+      }
+    }
+    window.addEventListener('scroll', updateOnePageNavigation, { passive: true });
+    window.addEventListener('resize', updateOnePageNavigation);
+    updateOnePageNavigation();
+  }
+
 })();

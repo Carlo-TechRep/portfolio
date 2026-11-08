@@ -34,6 +34,454 @@ html {
   scroll-behavior: smooth;
 }
 
+/* One continuous background for the home page below the hero. Individual
+   content sections stay transparent so the image is visible between cards. */
+body.home {
+  background-color: #06101a;
+  background-image:
+    linear-gradient(rgba(3, 15, 28, 0.7), rgba(3, 15, 28, 0.82)),
+    url('../images/team/background.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+body.home #site-content,
+body.home .navid-home-team-section,
+body.home .navid-services-section,
+body.home .navid-project-section,
+body.home .navid-about-section,
+body.home .navid-contact-section {
+  background-color: transparent;
+  background-image: none;
+}
+
+/* Home-page anchors account for the sticky site header. */
+#about,
+#contact {
+  scroll-margin-top: calc(var(--header-h) + 24px);
+}
+
+.navid-one-page-section {
+  padding: clamp(72px, 10vw, 130px) 0;
+}
+
+.navid-about-section {
+  background: var(--cream);
+}
+
+.navid-home-team-section {
+  background-color: #06101a;
+  background-image:
+    linear-gradient(rgba(3, 15, 28, 0.72), rgba(3, 15, 28, 0.82)),
+    url('../images/team/background.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 0;
+}
+
+/* GSAP pins this stage while the cards fall. */
+.navid-team-scroll-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100vh - var(--header-h));
+  padding-top: clamp(28px, 4vh, 52px);
+  padding-bottom: clamp(28px, 4vh, 52px);
+  overflow: hidden;
+}
+
+.navid-home-team-section .team-id-grid {
+  width: 100%;
+  max-width: 1380px;
+  align-self: center;
+  flex: 0 0 auto;
+}
+
+.navid-home-team-section.team-scroll-ready .team-card-fall {
+  opacity: 0;
+  filter: blur(5px);
+  transition: none;
+  will-change: opacity, transform, filter;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navid-home-team-section {
+    padding: clamp(72px, 10vw, 130px) 0;
+  }
+
+  .navid-team-scroll-stage {
+    position: static;
+    min-height: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: visible;
+  }
+
+  .navid-home-team-section.team-scroll-ready .team-card-fall {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .navid-home-team-section {
+    padding: clamp(72px, 10vw, 130px) 0;
+  }
+
+  .navid-team-scroll-stage {
+    position: static;
+    min-height: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: visible;
+  }
+
+  .navid-home-team-section.team-scroll-ready .team-card-fall {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
+/* Laptop-height desktop windows still run the animation.  Tighten only the
+   stage spacing so the original cards fit within the pinned viewport. */
+@media (min-width: 901px) and (max-height: 840px) {
+  .navid-team-scroll-stage {
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  .navid-home-team-section .navid-one-page-heading {
+    margin-bottom: 0;
+  }
+
+  .navid-home-team-section .team-id-grid {
+    margin-top: 28px;
+  }
+}
+
+.navid-contact-section {
+  background: var(--warm-white);
+}
+
+.navid-services-section {
+  background: transparent;
+}
+
+.navid-services-grid {
+  width: 100vw;
+  margin: 44px 0 0 calc(50% - 50vw);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px;
+  padding: 0 clamp(20px, 4vw, 64px);
+}
+
+.navid-service-card {
+  display: grid;
+  grid-template-columns: minmax(190px, 38%) 1fr;
+  align-items: stretch;
+  min-height: 280px;
+  padding: 18px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.navid-service-card:hover {
+  box-shadow: none;
+  transform: none;
+}
+
+.navid-service-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 244px;
+  margin: 0;
+  padding: 16px;
+  object-fit: contain;
+  object-position: center bottom;
+  border: 1px solid rgba(125, 211, 252, 0.3);
+  border-radius: 18px;
+  background: rgba(4, 18, 33, 0.72);
+  transition: transform 0.5s ease;
+}
+
+.navid-service-photo:hover {
+  cursor: zoom-in;
+}
+
+.navid-service-card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding: 10px 22px 10px 28px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.navid-service-number,
+.navid-project-copy > span {
+  display: block;
+  margin-bottom: 18px;
+  color: var(--sage);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.navid-service-card h3 {
+  margin: 0 0 5px;
+  font-size: clamp(1.25rem, 2vw, 1.6rem);
+  line-height: 1.2;
+  color: #fff;
+}
+
+.navid-service-member {
+  display: block;
+  margin-bottom: 7px;
+  color: #7dd3fc;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.navid-service-tagline {
+  display: block;
+  margin-bottom: 16px;
+  color: #fff;
+  font-size: clamp(1rem, 1.2vw, 1.12rem);
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.navid-service-card p,
+.navid-project-copy p {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.navid-project-section {
+  background: var(--warm-white);
+}
+
+.navid-project-showcase {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(250px, 0.45fr);
+  align-items: center;
+  gap: clamp(22px, 3vw, 48px);
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: clamp(20px, 3vw, 44px);
+  color: #fff;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+
+.navid-project-copy {
+  order: 2;
+  padding: clamp(24px, 3vw, 38px);
+  background: rgba(4, 18, 33, 0.72);
+  border: 1px solid rgba(125, 211, 252, 0.28);
+  border-radius: 18px;
+  box-shadow: 0 14px 32px rgba(0, 8, 18, 0.18);
+}
+
+.navid-project-copy p {
+  margin-top: 14px;
+  max-width: 420px;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.navid-project-copy > span {
+  color: #7dd3fc;
+}
+
+.navid-project-visuals {
+  order: 1;
+  width: 100%;
+}
+
+.navid-project-screen {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.navid-project-screen img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.navid-project-screen.is-full {
+  aspect-ratio: 698 / 357;
+}
+
+.navid-project-meta {
+  display: grid;
+  align-content: center;
+  gap: 12px;
+}
+
+.navid-project-meta span {
+  padding: 13px 16px;
+  color: #b9e8ff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(125, 211, 252, 0.08);
+  border: 1px solid rgba(125, 211, 252, 0.3);
+  border-radius: 999px;
+}
+
+.navid-one-page-heading {
+  max-width: 760px;
+  margin: 0 auto 32px;
+  text-align: center;
+}
+
+.navid-one-page-heading > span {
+  color: var(--sage);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.navid-one-page-heading h2 {
+  margin-top: 8px;
+}
+
+.navid-home-team-section .navid-one-page-heading h2 {
+  color: #fff;
+  font-size: clamp(2.25rem, 5vw, 4.25rem);
+  line-height: 1.05;
+  transform: translateY(18px);
+}
+
+.navid-team-heading-vision {
+  color: #38bdf8;
+}
+
+.navid-one-page-content {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.navid-contact-layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(28px, 5vw, 64px);
+  max-width: 1000px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.navid-contact-copy {
+  text-align: left;
+}
+
+.navid-contact-form {
+  padding: clamp(24px, 4vw, 40px);
+  background: var(--cream);
+  border-radius: 12px;
+}
+
+.navid-contact-form h3 {
+  margin-bottom: 16px;
+}
+
+.navid-team-roles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  max-width: 900px;
+  margin: 36px auto 0;
+}
+
+.navid-team-roles span,
+.navid-contact-email {
+  display: inline-block;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--charcoal);
+  font-weight: 600;
+}
+
+.navid-contact-email {
+  margin-top: 18px;
+  background: var(--sage);
+  border-color: var(--sage);
+  color: #fff;
+}
+
+@media (max-width: 700px) {
+  .navid-contact-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .navid-project-showcase {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .navid-services-grid {
+    gap: 18px;
+  }
+
+  .navid-service-card {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+
+  .navid-service-photo {
+    aspect-ratio: 16 / 9;
+    height: auto;
+    min-height: 0;
+  }
+
+  .navid-service-card-content {
+    padding: 22px 8px 8px;
+  }
+}
+
+@media (max-width: 560px) {
+  .navid-services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .navid-service-card-content {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
 body {
   font-family: var(--font-sans);
   font-weight: 400;
@@ -359,7 +807,7 @@ figcaption,
 }
 
 .top-bar-social a:hover {
-  color: var(--sage-light);
+  color: #16c8ff;
   transform: translateY(-1px);
 }
 
@@ -469,27 +917,46 @@ body.dark-mode .navid-ad-after {
 
 /* â• â• â•  HEADER â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â•  */
 .site-header {
-  position: sticky;
+  /* Overlay the page so the transparent header reveals its content. */
+  position: fixed;
   top: 0;
+  width: 100%;
   z-index: 100;
   min-height: 76px;
   padding: 14px 0;
   display: flex;
   align-items: center;
-  backdrop-filter: blur(20px) saturate(1.6);
-  -webkit-backdrop-filter: blur(20px) saturate(1.6);
-  background: rgba(250, 248, 244, 0.85);
-  border-bottom: 1px solid var(--border-light);
+  background: transparent;
+  border-bottom: 1px solid transparent;
   transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease;
 }
 
 .site-header.scrolled {
-  border-bottom-color: var(--border);
-  box-shadow: 0 1px 40px rgba(0, 0, 0, 0.06);
+  background: transparent;
+  border-bottom-color: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 body.dark-mode .site-header {
-  background: rgba(26, 26, 26, 0.82);
+  background: transparent;
+}
+
+body.dark-mode .site-header.scrolled {
+  background: transparent;
+}
+
+/* Keep navigation legible while it overlays page content. */
+.site-header .logo,
+.site-header .nav-menu > li > a,
+.site-header .dropdown-toggle {
+  color: #fff;
+}
+
+.site-header .icon-btn svg,
+.site-header .dropdown-toggle svg {
+  stroke: #fff;
 }
 
 /* Transparent Overlapping Header on Homepage */
@@ -509,7 +976,7 @@ body.has-transparent-header.has-topbar .top-bar {
 
 body.has-transparent-header .site-header:not(.scrolled) {
   background-color: transparent !important;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, transparent 100%) !important;
+  background: transparent !important;
   border-bottom-color: transparent !important;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
@@ -655,6 +1122,25 @@ body.dark-mode.has-transparent-header .site-header.mobile-menu-open:not(.scrolle
 }
 
 .nav-menu .current-menu-item>a::after {
+  width: 100%;
+  left: 0;
+}
+
+/* Scroll-spy state for the one-page About and Contact sections. */
+.nav-menu.has-scroll-active .current-menu-item > a {
+  color: var(--charcoal-muted);
+}
+
+.nav-menu.has-scroll-active .current-menu-item > a::after {
+  width: 0;
+  left: 50%;
+}
+
+.nav-menu .is-scroll-active > a {
+  color: var(--charcoal);
+}
+
+.nav-menu .is-scroll-active > a::after {
   width: 100%;
   left: 0;
 }
@@ -963,11 +1449,13 @@ body.has-transparent-header .hero-content {
 /* ── Hero Main Column ── */
 .hero-main-col {
   padding-right: clamp(30px, 4vw, 60px);
+  transform: translateY(28px);
 }
 
 @media (max-width: 900px) {
   .hero-main-col {
     padding-right: 0;
+    transform: translateY(16px);
   }
 }
 

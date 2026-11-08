@@ -233,11 +233,7 @@ function navid_woocommerce_sidebar() {
  */
 function navid_scripts() {
     // Google Fonts — dynamic based on customizer
-    $heading_font = get_theme_mod( 'navid_heading_font', 'Playfair Display' );
-    $body_font    = get_theme_mod( 'navid_body_font', 'Inter' );
-    $families     = array();
-    $families[]   = str_replace( ' ', '+', $heading_font ) . ':ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600';
-    $families[]   = str_replace( ' ', '+', $body_font ) . ':wght@300;400;500;600;700';
+    $families     = array( 'Fraunces:opsz,wght@9..144,300..900' );
     $font_url     = 'https://fonts.googleapis.com/css2?family=' . implode( '&family=', $families ) . '&display=swap';
     
     if ( function_exists( 'wptt_get_webfont_url' ) ) {
@@ -251,20 +247,48 @@ function navid_scripts() {
         null
     );
 
+    // Use each asset's modification time so browsers immediately receive
+    // updates instead of keeping an older file under a static theme version.
+    $theme_css_path = NAVID_DIR . '/assets/css/theme.css';
+    $theme_js_path  = NAVID_DIR . '/assets/js/theme.js';
+    $gsap_js_path   = NAVID_DIR . '/assets/js/vendor/gsap/gsap.min.js';
+    $trigger_js_path = NAVID_DIR . '/assets/js/vendor/gsap/ScrollTrigger.min.js';
+    $theme_css_ver  = file_exists( $theme_css_path ) ? (string) filemtime( $theme_css_path ) : NAVID_VERSION;
+    $theme_js_ver   = file_exists( $theme_js_path ) ? (string) filemtime( $theme_js_path ) : NAVID_VERSION;
+    $gsap_js_ver    = file_exists( $gsap_js_path ) ? (string) filemtime( $gsap_js_path ) : NAVID_VERSION;
+    $trigger_js_ver  = file_exists( $trigger_js_path ) ? (string) filemtime( $trigger_js_path ) : NAVID_VERSION;
+
     // Theme stylesheet
     wp_enqueue_style(
         'navid-style',
         NAVID_URI . '/assets/css/theme.css',
         array( 'navid-fonts' ),
-        NAVID_VERSION
+        $theme_css_ver
     );
 
-    // Theme JavaScript
+    // Local GSAP distribution: GSAP must be registered before its plugin.
+    wp_enqueue_script(
+        'navid-gsap',
+        NAVID_URI . '/assets/js/vendor/gsap/gsap.min.js',
+        array(),
+        $gsap_js_ver,
+        true
+    );
+
+    wp_enqueue_script(
+        'navid-gsap-scroll-trigger',
+        NAVID_URI . '/assets/js/vendor/gsap/ScrollTrigger.min.js',
+        array( 'navid-gsap' ),
+        $trigger_js_ver,
+        true
+    );
+
+    // Theme JavaScript loads after GSAP and ScrollTrigger.
     wp_enqueue_script(
         'navid-script',
         NAVID_URI . '/assets/js/theme.js',
-        array(),
-        NAVID_VERSION,
+        array( 'navid-gsap-scroll-trigger' ),
+        $theme_js_ver,
         true
     );
 
@@ -1308,6 +1332,35 @@ function navid_remove_unused_primary_menu_items( $items ) {
     return $items;
 }
 add_filter( 'wp_nav_menu_objects', 'navid_remove_unused_primary_menu_items', 20, 1 );
+
+/**
+ * Keep the main navigation on the front page for the site's one-page sections.
+ * The links also work from interior pages by returning to the home URL first.
+ *
+ * @param array $items Menu items.
+ * @return array
+ */
+function navid_make_primary_menu_one_page( $items ) {
+    if ( empty( $items ) || ! is_array( $items ) ) {
+        return $items;
+    }
+
+    $anchors = array(
+        'about'   => 'about',
+        'contact' => 'contact',
+    );
+
+    foreach ( $items as $item ) {
+        $title = strtolower( trim( wp_strip_all_tags( $item->title ) ) );
+        if ( isset( $anchors[ $title ] ) ) {
+            $item->url     = home_url( '/#' . $anchors[ $title ] );
+            $item->classes = array_unique( array_merge( (array) $item->classes, array( 'navid-one-page-link' ) ) );
+        }
+    }
+
+    return $items;
+}
+add_filter( 'wp_nav_menu_objects', 'navid_make_primary_menu_one_page', 30, 1 );
 
 /**
  * Keep the WordPress administration toolbar out of the public site.
