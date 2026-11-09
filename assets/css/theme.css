@@ -59,7 +59,8 @@ body.home .navid-contact-section {
 
 /* Home-page anchors account for the sticky site header. */
 #about,
-#contact {
+#contact,
+#team-gallery {
   scroll-margin-top: calc(var(--header-h) + 24px);
 }
 
@@ -170,6 +171,41 @@ body.home .navid-contact-section {
 
 .navid-contact-section {
   background: var(--warm-white);
+}
+
+/* These sections sit on the dark homepage artwork. Keep every text element
+   high-contrast, including the contact panel. */
+body.home .navid-about-section,
+body.home .navid-contact-section,
+body.home .navid-about-section h1,
+body.home .navid-about-section h2,
+body.home .navid-about-section h3,
+body.home .navid-about-section p,
+body.home .navid-contact-section h1,
+body.home .navid-contact-section h2,
+body.home .navid-contact-section h3,
+body.home .navid-contact-section p,
+body.home .navid-contact-section label,
+body.home .navid-contact-section li {
+  color: #fff;
+}
+
+body.home .navid-about-section .navid-one-page-heading > span,
+body.home .navid-contact-section .navid-one-page-heading > span {
+  color: #7dd3fc;
+}
+
+body.home .navid-services-section .navid-one-page-heading h2 {
+  color: #fff;
+}
+
+body.home .navid-services-section .navid-one-page-heading > span {
+  color: #7dd3fc;
+}
+
+body.home .navid-contact-form {
+  background: rgba(4, 18, 33, 0.84);
+  border: 1px solid rgba(125, 211, 252, 0.3);
 }
 
 .navid-services-section {
@@ -390,6 +426,35 @@ body.home .navid-contact-section {
   margin: 0 auto;
   text-align: center;
 }
+
+.navid-team-portrait {
+  max-width: 1250px;
+  margin: 42px auto 0;
+}
+
+.navid-team-portrait img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid rgba(125, 211, 252, 0.45);
+  border-radius: 24px;
+  box-shadow: 0 22px 52px rgba(0, 0, 0, 0.28);
+}
+
+.navid-team-member-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
+  max-width: 1120px;
+  margin: 34px auto 0;
+}
+
+.navid-team-member-gallery figure { margin: 0; overflow: hidden; border: 1px solid rgba(125, 211, 252, .42); border-radius: 18px; background: rgba(4, 18, 33, .7); }
+.navid-team-member-gallery a { display: block; color: inherit; text-decoration: none; transition: transform .25s ease, box-shadow .25s ease; }
+.navid-team-member-gallery a:hover, .navid-team-member-gallery a:focus-visible { transform: translateY(-6px); box-shadow: 0 16px 28px rgba(0, 0, 0, .28); }
+.navid-team-member-gallery img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center top; }
+.navid-team-member-gallery figcaption { padding: 13px 10px; color: #fff; font-size: 14px; font-weight: 700; text-align: center; }
+@media (max-width: 700px) { .navid-team-member-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; } }
 
 .navid-contact-layout {
   display: grid;
@@ -1046,12 +1111,13 @@ body.dark-mode.has-transparent-header .site-header.mobile-menu-open:not(.scrolle
 
 .header-inner>.primary-nav {
   order: 2;
-  margin: 0 auto;
+  /* Keep the primary links beside the header controls on larger screens. */
+  margin: 0 0 0 auto;
 }
 
 .header-inner>.js-search-toggle {
   order: 3;
-  margin-left: auto;
+  margin-left: 0;
 }
 
 .header-inner>.header-actions {
@@ -6785,11 +6851,16 @@ body .wp-block-button.is-style-outline .wp-block-button__link:not(.has-text-colo
 .team-section-heading h2 em { color: #16c8ff; font-style: normal; }
 .team-section-heading p { color: rgba(255,255,255,0.82); font-size: clamp(16px, 1.5vw, 20px); }
 .team-id-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; max-width: 1380px; margin: 42px auto 0; }
-.team-id-card { min-height: 585px; color: #fff; perspective: 1100px; -webkit-perspective: 1100px; cursor: pointer; }
+.team-id-card { min-height: 610px; color: #fff; perspective: 1100px; -webkit-perspective: 1100px; cursor: pointer; opacity: 0; transform: translateY(28px); transition: transform .55s cubic-bezier(.22,1,.36,1), opacity .55s ease; }
+.team-id-card:nth-child(2) { transition-delay: .08s; }.team-id-card:nth-child(3) { transition-delay: .16s; }.team-id-card:nth-child(4) { transition-delay: .24s; }
+.team-id-card.is-visible { opacity: 1; transform: translateY(0); }
+.team-id-card:hover { transform: translateY(-8px); }
 .team-id-card:focus-visible { outline: 3px solid #7dd3fc; outline-offset: 4px; border-radius: 14px; }
-.team-id-card-inner { position: relative; width: 100%; height: 100%; min-height: 585px; transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1); transform-style: preserve-3d; -webkit-transform-style: preserve-3d; will-change: transform; }
+.team-id-card-inner { position: relative; width: 100%; height: 100%; min-height: 610px; transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1); transform-style: preserve-3d; -webkit-transform-style: preserve-3d; will-change: transform; }
 .team-id-card.is-flipped .team-id-card-inner { transform: rotateY(180deg) scale(1.015); }
 .team-id-face { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 22px; overflow: hidden; background: linear-gradient(145deg, #10263a, #06101a); border: 1px solid rgba(54, 180, 255, 0.48); border-radius: 28px; box-shadow: 0 16px 35px rgba(0, 0, 0, 0.28); backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.team-id-face::before { position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, rgba(125,211,252,.13) 50%, transparent 70%); content: ''; transform: translateX(-130%); transition: transform .75s ease; pointer-events: none; }
+.team-id-card:hover .team-id-face::before, .team-id-card:focus-visible .team-id-face::before { transform: translateX(130%); }
 .team-id-front { align-items: center; text-align: center; }
 .team-id-back { background: linear-gradient(145deg, #0d2233, #07111b); border-color: rgba(125, 211, 252, 0.7); transform: rotateY(180deg); }
 .team-id-role { display: inline-flex; align-self: center; align-items: center; justify-content: center; min-height: 36px; padding: 0 16px; color: #fff; font-size: 11px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; background: rgba(3, 17, 30, 0.88); border: 2px solid #12c8ff; border-radius: 999px; box-shadow: inset 0 0 18px rgba(18, 200, 255, 0.16); }
@@ -6804,10 +6875,47 @@ body .wp-block-button.is-style-outline .wp-block-button__link:not(.has-text-colo
 .team-id-details { margin: 0; }
 .team-id-details div { margin-top: 14px; }
 .team-id-details dt { color: rgba(255, 255, 255, 0.55); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
-.team-id-details dd { margin: 3px 0 0; font-size: 15px; font-weight: 650; }
+.team-id-details dd { margin: 3px 0 0; font-size: 14px; font-weight: 550; line-height: 1.45; }
+.team-story-button { align-self: flex-start; margin-top: 18px; padding: 9px 15px; color: #fff; font: inherit; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; background: rgba(18, 200, 255, .12); border: 1px solid #12c8ff; border-radius: 999px; cursor: pointer; transition: background .25s ease, transform .25s ease; }
+.team-story-button:hover, .team-story-button:focus-visible { background: #12c8ff; color: #06101a; transform: translateY(-2px); }
+.team-story-modal { position: fixed; z-index: 10000; inset: 0; display: grid; place-items: center; padding: 20px; visibility: hidden; opacity: 0; transition: opacity .25s ease, visibility .25s ease; }
+.team-story-modal.is-open { visibility: visible; opacity: 1; }
+.team-story-modal__backdrop { position: absolute; inset: 0; background: rgba(1, 10, 19, .78); backdrop-filter: blur(7px); }
+.team-story-modal__dialog { position: relative; width: min(100%, 650px); padding: clamp(30px, 5vw, 54px); color: #fff; background: linear-gradient(145deg, #102b42, #06101a); border: 1px solid rgba(125, 211, 252, .65); border-radius: 24px; box-shadow: 0 24px 70px rgba(0, 0, 0, .48); transform: translateY(18px) scale(.98); transition: transform .25s ease; }
+.team-story-modal.is-open .team-story-modal__dialog { transform: translateY(0) scale(1); }
+.team-story-modal__close { position: absolute; top: 14px; right: 16px; width: 36px; height: 36px; color: #b9e8ff; font-size: 29px; line-height: 1; background: transparent; border: 0; cursor: pointer; }
+.team-story-modal__role { display: block; margin-bottom: 10px; color: #7dd3fc; font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.team-story-modal h2 { margin: 0 30px 16px 0; color: #fff; font-size: clamp(26px, 4vw, 40px); }
+.team-story-modal p { margin: 0; color: rgba(255,255,255,.88); font-size: 17px; line-height: 1.75; }
+body.team-story-modal-open { overflow: hidden; }
+.team-resume-page { min-height: 100vh; padding: clamp(52px, 8vw, 110px) 24px; color: #fff; background: #06101a url('../images/team/background.png') center / cover fixed; }
+.team-resume-page__inner { max-width: 1120px; margin: 0 auto; }
+.team-resume-card { display: grid; grid-template-columns: minmax(220px, .62fr) minmax(0, 1.38fr); gap: clamp(28px, 6vw, 80px); align-items: center; padding: clamp(26px, 5vw, 54px); background: rgba(4, 18, 33, .86); border: 1px solid rgba(125, 211, 252, .38); border-radius: 28px; }
+.team-resume-card img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center top; border: 2px solid #12c8ff; border-radius: 20px; }
+.team-resume-card span { color: #7dd3fc; font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.team-resume-card h1 { margin: 10px 0 14px; color: #fff; font-size: clamp(36px, 5vw, 64px); line-height: 1; }
+.team-resume-card p { color: rgba(255,255,255,.86); line-height: 1.75; }
+.team-resume-details { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 22px; }
+.team-resume-details article { padding: 24px; background: rgba(11, 35, 54, .84); border: 1px solid rgba(125, 211, 252, .24); border-radius: 18px; }
+.team-resume-details h2 { margin: 0 0 10px; color: #7dd3fc; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
+.team-resume-details p { color: rgba(255,255,255,.88); line-height: 1.65; }
+.team-resume-favorites { margin-top: 32px; text-align: center; }
+.team-resume-favorites h2 { margin: 0 0 18px; color: #7dd3fc; font-size: 13px; letter-spacing: .1em; text-transform: uppercase; }
+.team-resume-hobby-images { position: relative; width: min(100%, 840px); height: 390px; margin: 0 auto; }
+.team-resume-hobby-images img { position: absolute; top: 34px; left: 50%; display: block; width: min(30vw, 245px); aspect-ratio: 4 / 5; object-fit: cover; background: #fff; border: 8px solid #fff; border-radius: 16px; box-shadow: 0 16px 30px rgba(0, 0, 0, .35); cursor: pointer; transition: transform .28s ease, opacity .2s ease; }
+.team-resume-hobby-images:has(img.is-active) img:not(.is-active) { opacity: 0; pointer-events: none; }
+.team-resume-hobby-images img:nth-child(1) { z-index: 1; transform: translateX(-165%) rotate(-19deg); }
+.team-resume-hobby-images img:nth-child(2) { z-index: 2; transform: translateX(-68%) rotate(-7deg); }
+.team-resume-hobby-images img:nth-child(3) { z-index: 3; transform: translateX(-30%) rotate(6deg); }
+.team-resume-hobby-images img:nth-child(4) { z-index: 4; transform: translateX(62%) rotate(18deg); }
+.team-resume-hobby-images img.is-active { z-index: 10; transform: translateX(-50%) translateY(-18px) rotate(0) scale(1.16); }
+.team-resume-return { display: inline-flex; align-items: center; justify-content: center; min-width: 132px; margin-top: 28px; padding: 12px 22px; color: #06101a; font: inherit; font-weight: 800; text-decoration: none; background: #7dd3fc; border: 0; border-radius: 999px; cursor: pointer; transition: transform .2s ease, background .2s ease; }
+.team-resume-return:hover, .team-resume-return:focus-visible { color: #06101a; background: #fff; transform: translateY(-2px); }
+@media (max-width: 700px) { .team-resume-card, .team-resume-details { grid-template-columns: 1fr; } .team-resume-card img { max-width: 300px; margin: 0 auto; } }
+@media (max-width: 600px) { .team-resume-hobby-images { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; width: 100%; height: auto; } .team-resume-hobby-images img, .team-resume-hobby-images img:nth-child(n) { position: static; width: 100%; transform: none; border-width: 5px; } }
 @media (max-width: 900px) { .team-id-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .team-id-grid { grid-template-columns: 1fr; } }
-@media (prefers-reduced-motion: reduce) { .team-id-card-inner { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .team-id-card, .team-id-card-inner, .team-id-face::before { transition: none; } .team-id-card { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { body.site-revealed.hero-floating .hero-bg img { animation: none; } }
 
 

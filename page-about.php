@@ -112,15 +112,15 @@ get_header();
   <div class="team-id-grid">
     <?php
     $team_members = array(
-        array( 'role' => 'Project Manager', 'name' => 'Wilan Jomart J. Satur', 'id' => '2023-1-00000', 'address' => 'Luyong Bonbon, Opol, Misamis Oriental', 'image' => 'Wilan Jomart J. Satur/profile.png' ),
-        array( 'role' => 'System Analyst', 'name' => 'Jhon Phillip V. Polison', 'id' => '2023-1-05034', 'address' => 'Amoros, City of El Salvador', 'image' => 'Jhon Phillip V. Polison/profile.png' ),
-        array( 'role' => 'Programmer', 'name' => 'Carlo A. Nacua', 'id' => '2023-1-04974', 'address' => 'Luyong Bonbon, Opol, Misamis Oriental', 'image' => 'Carlo A. Nacua/profile.png' ),
-        array( 'role' => 'Technical Writer', 'name' => 'Jay Vee C. Bahian', 'id' => '2023-1-05380', 'address' => 'Cogon, City of El Salvador', 'image' => 'Jay Vee C. Bahian/profile.png' ),
+        array( 'role' => 'Project Manager', 'name' => 'Wilan Jomart J. Satur', 'skills' => 'Project planning, team coordination, and clear communication.', 'story' => 'Wilan enjoys bringing people and ideas together, turning a shared goal into a focused and supportive team effort.', 'ambition' => 'To lead projects that make technology more useful and accessible for the community.', 'image' => 'Wilan Jomart J. Satur/wilan-jomart-j-satur.png' ),
+        array( 'role' => 'System Analyst', 'name' => 'Jhon Phillip V. Polison', 'skills' => 'Requirements analysis, process design, and problem solving.', 'story' => 'Jhon is drawn to understanding how things work and finding thoughtful ways to make systems clearer and more reliable.', 'ambition' => 'To design practical digital solutions that solve real-world needs.', 'image' => 'Jhon Phillip V. Polison/jhon-phillip-v-polison.jpg' ),
+        array( 'role' => 'Programmer', 'name' => 'Carlo A. Nacua', 'skills' => 'Web development, programming logic, and debugging.', 'story' => 'Carlo enjoys the patient craft of turning an idea into working code, one detail and improvement at a time.', 'ambition' => 'To build dependable software that creates meaningful everyday impact.', 'image' => 'Carlo A. Nacua/carlo-a-nacua.png' ),
+        array( 'role' => 'Technical Writer', 'name' => 'Jay Vee C. Bahian', 'skills' => 'Technical documentation, research, and concise writing.', 'story' => 'Jay Vee believes strong communication makes good technology easier to understand, use, and trust.', 'ambition' => 'To make complex information clear and helpful for every kind of reader.', 'image' => 'Jay Vee C. Bahian/Jay-vee-c-bahian.png' ),
     );
     foreach ( $team_members as $member ) :
       $image_path = get_template_directory() . '/assets/images/team/' . $member['image'];
     ?>
-      <article class="team-id-card anim-up" tabindex="0" role="button" aria-pressed="false" aria-label="<?php echo esc_attr( sprintf( __( 'Show ID details for %s', 'navid' ), $member['name'] ) ); ?>">
+      <article class="team-id-card anim-up" tabindex="0" role="button" aria-pressed="false" aria-label="<?php echo esc_attr( sprintf( __( 'Show profile details for %s', 'navid' ), $member['name'] ) ); ?>">
         <div class="team-id-card-inner">
           <div class="team-id-face team-id-front">
             <span class="team-id-role"><?php echo esc_html( $member['role'] ); ?></span>
@@ -130,16 +130,18 @@ get_header();
               <div class="team-id-mark" aria-hidden="true">TV</div>
             <?php endif; ?>
             <h3><?php echo esc_html( $member['name'] ); ?></h3>
-            <span class="team-id-hint"><?php esc_html_e( 'Click to view ID', 'navid' ); ?></span>
+            <span class="team-id-hint"><?php esc_html_e( 'Select to discover their story', 'navid' ); ?></span>
           </div>
           <div class="team-id-face team-id-back">
             <span class="team-id-role"><?php echo esc_html( $member['role'] ); ?></span>
             <dl class="team-id-details">
               <div><dt><?php esc_html_e( 'Name', 'navid' ); ?></dt><dd><?php echo esc_html( $member['name'] ); ?></dd></div>
-              <div><dt><?php esc_html_e( 'ID Number', 'navid' ); ?></dt><dd><?php echo esc_html( $member['id'] ); ?></dd></div>
-              <div><dt><?php esc_html_e( 'Address', 'navid' ); ?></dt><dd><?php echo esc_html( $member['address'] ); ?></dd></div>
+              <div><dt><?php esc_html_e( 'Skills', 'navid' ); ?></dt><dd><?php echo esc_html( $member['skills'] ); ?></dd></div>
+              <div><dt><?php esc_html_e( 'Story', 'navid' ); ?></dt><dd><?php echo esc_html( $member['story'] ); ?></dd></div>
+              <div><dt><?php esc_html_e( 'Ambition', 'navid' ); ?></dt><dd><?php echo esc_html( $member['ambition'] ); ?></dd></div>
             </dl>
-            <span class="team-id-hint"><?php esc_html_e( 'Click to return', 'navid' ); ?></span>
+            <button class="team-story-button" type="button" data-name="<?php echo esc_attr( $member['name'] ); ?>" data-role="<?php echo esc_attr( $member['role'] ); ?>" data-story="<?php echo esc_attr( $member['story'] . ' ' . $member['ambition'] ); ?>"><?php esc_html_e( 'More info', 'navid' ); ?></button>
+            <span class="team-id-hint"><?php esc_html_e( 'Select to return', 'navid' ); ?></span>
           </div>
         </div>
       </article>

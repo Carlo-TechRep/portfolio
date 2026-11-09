@@ -1334,8 +1334,7 @@ function navid_remove_unused_primary_menu_items( $items ) {
 add_filter( 'wp_nav_menu_objects', 'navid_remove_unused_primary_menu_items', 20, 1 );
 
 /**
- * Keep the main navigation on the front page for the site's one-page sections.
- * The links also work from interior pages by returning to the home URL first.
+ * Keep About and Contact navigation on the homepage's scrollable sections.
  *
  * @param array $items Menu items.
  * @return array
@@ -1346,8 +1345,9 @@ function navid_make_primary_menu_one_page( $items ) {
     }
 
     $anchors = array(
-        'about'   => 'about',
-        'contact' => 'contact',
+        'about'    => 'about',
+        'about us' => 'about',
+        'contact'  => 'contact',
     );
 
     foreach ( $items as $item ) {
@@ -1367,3 +1367,95 @@ add_filter( 'wp_nav_menu_objects', 'navid_make_primary_menu_one_page', 30, 1 );
  * Dashboard access remains available at /wp-admin/.
  */
 add_filter( 'show_admin_bar', '__return_false' );
+
+/** Register editable team profile pages. */
+function navid_register_team_member_post_type() {
+    register_post_type(
+        'team_member',
+        array(
+            'labels' => array(
+                'name'          => __( 'Team Profiles', 'navid' ),
+                'singular_name' => __( 'Team Profile', 'navid' ),
+                'add_new_item'  => __( 'Add Team Profile', 'navid' ),
+                'edit_item'     => __( 'Edit Team Profile', 'navid' ),
+            ),
+            'public'       => true,
+            'show_in_menu' => true,
+            'menu_icon'    => 'dashicons-id-alt',
+            'supports'     => array( 'title', 'editor' ),
+            'rewrite'      => array( 'slug' => 'team' ),
+            'has_archive'  => false,
+        )
+    );
+}
+add_action( 'init', 'navid_register_team_member_post_type', 5 );
+
+/** Create the four starter profiles once, without replacing later admin edits. */
+function navid_seed_team_member_profiles() {
+    if ( get_option( 'navid_team_profiles_seeded' ) ) {
+        return;
+    }
+
+    $profiles = array(
+        array( 'name' => 'Wilan Jomart J. Satur', 'role' => 'Project Manager', 'image' => 'Wilan Jomart J. Satur/wilan-jomart-j-satur.png', 'skills' => 'Project planning, team coordination, and clear communication.', 'ambition' => 'To lead projects that make technology more useful and accessible for the community.', 'favorites' => 'Team collaboration, organized planning, and meaningful results.' ),
+        array( 'name' => 'Jhon Phillip V. Polison', 'role' => 'System Analyst', 'image' => 'Jhon Phillip V. Polison/jhon-phillip-v-polison.jpg', 'skills' => 'Requirements analysis, process design, and problem solving.', 'ambition' => 'To design practical digital solutions that solve real-world needs.', 'favorites' => 'Research, process mapping, and solving complex problems.' ),
+        array( 'name' => 'Carlo A. Nacua', 'role' => 'Programmer', 'image' => 'Carlo A. Nacua/carlo-a-nacua.png', 'skills' => 'Web development, programming logic, and debugging.', 'ambition' => 'To build dependable software that creates meaningful everyday impact.', 'favorites' => 'Coding, technical puzzles, and building useful features.' ),
+        array( 'name' => 'Jay Vee C. Bahian', 'role' => 'Technical Writer', 'image' => 'Jay Vee C. Bahian/Jay-vee-c-bahian.png', 'skills' => 'Technical documentation, research, and concise writing.', 'ambition' => 'To make complex information clear and helpful for every kind of reader.', 'favorites' => 'Writing, research, and making technology easier to understand.' ),
+    );
+
+    foreach ( $profiles as $profile ) {
+        $existing = get_page_by_path( sanitize_title( $profile['name'] ), OBJECT, 'team_member' );
+        if ( $existing ) {
+            continue;
+        }
+        $post_id = wp_insert_post( array( 'post_type' => 'team_member', 'post_status' => 'publish', 'post_title' => $profile['name'], 'post_name' => sanitize_title( $profile['name'] ) ) );
+        if ( $post_id && ! is_wp_error( $post_id ) ) {
+            foreach ( $profile as $key => $value ) {
+                if ( 'name' !== $key ) {
+                    update_post_meta( $post_id, '_navid_team_' . $key, $value );
+                }
+            }
+        }
+    }
+    update_option( 'navid_team_profiles_seeded', 1 );
+    flush_rewrite_rules( false );
+}
+add_action( 'init', 'navid_seed_team_member_profiles', 20 );
+
+/** Add fields that can be edited on every Team Profile screen. */
+function navid_add_team_profile_meta_box() {
+    add_meta_box( 'navid-team-profile-details', __( 'Resume / Bio Details', 'navid' ), 'navid_render_team_profile_meta_box', 'team_member', 'normal', 'high' );
+}
+add_action( 'add_meta_boxes_team_member', 'navid_add_team_profile_meta_box' );
+
+function navid_render_team_profile_meta_box( $post ) {
+    $fields = array( 'role' => __( 'Role', 'navid' ), 'birthdate' => __( 'Birthdate', 'navid' ), 'age' => __( 'Age', 'navid' ), 'religion' => __( 'Religion', 'navid' ), 'elementary_school' => __( 'Elementary School', 'navid' ), 'high_school' => __( 'High School', 'navid' ), 'college' => __( 'College', 'navid' ), 'skills' => __( 'Skills', 'navid' ), 'ambition' => __( 'Ambition', 'navid' ), 'hobby_image_1' => __( 'Hobby Image 1', 'navid' ), 'hobby_image_2' => __( 'Hobby Image 2', 'navid' ), 'hobby_image_3' => __( 'Hobby Image 3', 'navid' ), 'hobby_image_4' => __( 'Hobby Image 4', 'navid' ), 'image' => __( 'Image path', 'navid' ) );
+    wp_nonce_field( 'navid_save_team_profile', 'navid_team_profile_nonce' );
+    echo '<table class="form-table">';
+    foreach ( $fields as $key => $label ) {
+        $value = get_post_meta( $post->ID, '_navid_team_' . $key, true );
+        $type  = 'birthdate' === $key ? 'date' : 'text';
+        $wide  = in_array( $key, array( 'skills', 'ambition', 'hobby_image_1', 'hobby_image_2', 'hobby_image_3', 'hobby_image_4', 'image' ), true );
+        echo '<tr><th><label for="navid-team-' . esc_attr( $key ) . '">' . esc_html( $label ) . '</label></th><td>';
+        if ( $wide && 'image' !== $key ) {
+            echo '<textarea class="large-text" rows="3" id="navid-team-' . esc_attr( $key ) . '" name="navid_team_' . esc_attr( $key ) . '">' . esc_textarea( $value ) . '</textarea>';
+        } else {
+            echo '<input class="' . ( $wide ? 'large-text' : 'regular-text' ) . '" type="' . esc_attr( $type ) . '" id="navid-team-' . esc_attr( $key ) . '" name="navid_team_' . esc_attr( $key ) . '" value="' . esc_attr( $value ) . '">';
+        }
+        echo '</td></tr>';
+    }
+    echo '</table><p>' . esc_html__( 'Image paths can be relative to the theme team-images folder (for example: Carlo A. Nacua/carlo-a-nacua.png) or a full Media Library image URL.', 'navid' ) . '</p>';
+}
+
+function navid_save_team_profile_meta( $post_id ) {
+    if ( ! isset( $_POST['navid_team_profile_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['navid_team_profile_nonce'] ) ), 'navid_save_team_profile' ) || defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE || ! current_user_can( 'edit_post', $post_id ) ) {
+        return;
+    }
+    foreach ( array( 'role', 'birthdate', 'age', 'religion', 'elementary_school', 'high_school', 'college', 'skills', 'ambition', 'hobby_image_1', 'hobby_image_2', 'hobby_image_3', 'hobby_image_4', 'image' ) as $key ) {
+        if ( isset( $_POST[ 'navid_team_' . $key ] ) ) {
+            update_post_meta( $post_id, '_navid_team_' . $key, sanitize_textarea_field( wp_unslash( $_POST[ 'navid_team_' . $key ] ) ) );
+        }
+    }
+}
+add_action( 'save_post_team_member', 'navid_save_team_profile_meta' );
+

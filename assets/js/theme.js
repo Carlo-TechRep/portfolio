@@ -101,6 +101,54 @@
   }
 
   // ── Topic chips ──────────────────────────────────
+  // Keep the team portrait centered when the About navigation link is used.
+  function scrollToTeamPortrait(smooth) {
+    var portrait = document.querySelector('.navid-team-portrait');
+    if (!portrait) return;
+
+    var portraitCenter = window.scrollY + portrait.getBoundingClientRect().top + (portrait.offsetHeight / 2);
+    // Leave room above the portrait for the About Us heading and introduction.
+    var targetPosition = Math.max(0, portraitCenter - (window.innerHeight / 2) - 210);
+    window.scrollTo({ top: targetPosition, behavior: smooth ? 'smooth' : 'auto' });
+  }
+
+  document.querySelectorAll('a[href$="#about"]').forEach(function(link) {
+    link.addEventListener('click', function(event) {
+      if (!document.querySelector('.navid-team-portrait')) return;
+      event.preventDefault();
+      window.history.replaceState(null, '', '#about');
+      scrollToTeamPortrait(true);
+    });
+  });
+
+  if (window.location.hash === '#about') {
+    window.setTimeout(function() { scrollToTeamPortrait(false); }, 0);
+  }
+
+  // Return from a member bio to the already-open team gallery without reloading it.
+  document.querySelectorAll('.team-resume-return').forEach(function(button) {
+    button.addEventListener('click', function() {
+      if (window.history.length > 1) {
+        window.history.back();
+      } else if (button.dataset.returnFallback) {
+        window.location.assign(button.dataset.returnFallback);
+      }
+    });
+  });
+
+  // Open one hobby image at a time on click.
+  document.querySelectorAll('.team-resume-hobby-images').forEach(function(gallery) {
+    gallery.querySelectorAll('img').forEach(function(image) {
+      image.addEventListener('click', function() {
+        var wasActive = image.classList.contains('is-active');
+        gallery.querySelectorAll('img').forEach(function(item) { item.classList.remove('is-active'); });
+        if (!wasActive) {
+          image.classList.add('is-active');
+        }
+      });
+    });
+  });
+
   document.querySelectorAll('.topic-chip').forEach(chip => {
     chip.addEventListener('click', () => {
       document.querySelectorAll('.topic-chip').forEach(c => c.classList.remove('active'));
@@ -525,6 +573,22 @@
 
   // Team ID cards: click or keyboard flip.
   document.querySelectorAll('.team-id-card').forEach(function(card) {
+    function revealCard() {
+      card.classList.add('is-visible');
+    }
+    if ('IntersectionObserver' in window) {
+      var cardObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            revealCard();
+            cardObserver.unobserve(card);
+          }
+        });
+      }, { threshold: 0.15 });
+      cardObserver.observe(card);
+    } else {
+      revealCard();
+    }
     function toggleCard() {
       var isFlipped = card.classList.toggle('is-flipped');
       card.setAttribute('aria-pressed', isFlipped ? 'true' : 'false');
@@ -537,6 +601,48 @@
       }
     });
   });
+
+  // Team life-story modal.
+  var storyModal = document.getElementById('teamStoryModal');
+  if (storyModal) {
+    var storyTitle = document.getElementById('teamStoryModalTitle');
+    var storyRole = document.getElementById('teamStoryModalRole');
+    var storyText = document.getElementById('teamStoryModalText');
+    var storyTrigger = null;
+
+    function closeStoryModal() {
+      storyModal.classList.remove('is-open');
+      storyModal.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('team-story-modal-open');
+      if (storyTrigger) {
+        storyTrigger.focus();
+      }
+    }
+
+    document.querySelectorAll('.team-story-button').forEach(function(button) {
+      button.addEventListener('click', function(event) {
+        event.stopPropagation();
+        storyTrigger = button;
+        storyTitle.textContent = button.dataset.name || '';
+        storyRole.textContent = button.dataset.role || '';
+        storyText.textContent = button.dataset.story || '';
+        storyModal.classList.add('is-open');
+        storyModal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('team-story-modal-open');
+        storyModal.querySelector('.team-story-modal__close').focus();
+      });
+    });
+
+    storyModal.querySelectorAll('[data-team-modal-close]').forEach(function(closeButton) {
+      closeButton.addEventListener('click', closeStoryModal);
+    });
+
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape' && storyModal.classList.contains('is-open')) {
+        closeStoryModal();
+      }
+    });
+  }
 
   // Scroll-linked falling reveal for the four Home team cards.
   var homeTeamSection = document.querySelector('.navid-home-team-section');

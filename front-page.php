@@ -118,18 +118,14 @@ if ( is_array( $layout ) ) {
     }
 }
 
-/*
- * One-page navigation sections. These are deliberately rendered on the front
- * page so the About and Contact navigation items can scroll here instead of
- * loading a separate page.
- */
+/* One-page navigation sections displayed at the end of the homepage. */
 $about_page   = get_page_by_path( 'about' );
 $contact_page = get_page_by_path( 'contact' );
 $team_members = array(
-    array( 'role' => 'Project Manager', 'name' => 'Wilan Jomart J. Satur', 'tagline' => 'Leading with Vision, Managing with Purpose, and Turning Every Challenge into an Opportunity for Success.', 'id' => '2023-1-00000', 'address' => 'Luyong Bonbon, Opol, Misamis Oriental', 'image' => 'Wilan Jomart J. Satur/profile.png', 'service_image' => 'Wilan Jomart J. Satur/project-manager.png' ),
-    array( 'role' => 'System Analyst', 'name' => 'Jhon Phillip V. Polison', 'tagline' => 'Understanding Complex Problems, Discovering Smarter Possibilities, and Designing Solutions That Make a Difference.', 'id' => '2023-1-05034', 'address' => 'Amoros, City of El Salvador', 'image' => 'Jhon Phillip V. Polison/profile.png', 'service_image' => 'Jhon Phillip V. Polison/system-analyst.png' ),
-    array( 'role' => 'Programmer', 'name' => 'Carlo A. Nacua', 'tagline' => 'Transforming Creative Ideas into Powerful Code, Building Innovative Solutions, and Bringing Technology to Life.', 'id' => '2023-1-04974', 'address' => 'Amoros, City of El Salvador', 'image' => 'Carlo A. Nacua/profile.png', 'service_image' => 'Carlo A. Nacua/programmer.png' ),
-    array( 'role' => 'Technical Writer', 'name' => 'Jay Vee C. Bahian', 'tagline' => 'Turning Complex Technical Concepts into Clear Communication, Connecting Innovation with Understanding, and Making Knowledge Accessible to Everyone.', 'id' => '2023-1-05380', 'address' => 'Cogon, City of El Salvador', 'image' => 'Jay Vee C. Bahian/profile.png', 'service_image' => 'Jay Vee C. Bahian/technical-writer.png' ),
+    array( 'role' => 'Project Manager', 'name' => 'Wilan Jomart J. Satur', 'tagline' => 'Leading with Vision, Managing with Purpose, and Turning Every Challenge into an Opportunity for Success.', 'skills' => 'Project planning, team coordination, and clear communication.', 'story' => 'Wilan enjoys bringing people and ideas together, turning a shared goal into a focused and supportive team effort.', 'ambition' => 'To lead projects that make technology more useful and accessible for the community.', 'image' => 'Wilan Jomart J. Satur/wilan-jomart-j-satur.png', 'service_image' => 'Wilan Jomart J. Satur/project-manager.png' ),
+    array( 'role' => 'System Analyst', 'name' => 'Jhon Phillip V. Polison', 'tagline' => 'Understanding Complex Problems, Discovering Smarter Possibilities, and Designing Solutions That Make a Difference.', 'skills' => 'Requirements analysis, process design, and problem solving.', 'story' => 'Jhon is drawn to understanding how things work and finding thoughtful ways to make systems clearer and more reliable.', 'ambition' => 'To design practical digital solutions that solve real-world needs.', 'image' => 'Jhon Phillip V. Polison/jhon-phillip-v-polison.jpg', 'service_image' => 'Jhon Phillip V. Polison/system-analyst.png' ),
+    array( 'role' => 'Programmer', 'name' => 'Carlo A. Nacua', 'tagline' => 'Transforming Creative Ideas into Powerful Code, Building Innovative Solutions, and Bringing Technology to Life.', 'skills' => 'Web development, programming logic, and debugging.', 'story' => 'Carlo enjoys the patient craft of turning an idea into working code, one detail and improvement at a time.', 'ambition' => 'To build dependable software that creates meaningful everyday impact.', 'image' => 'Carlo A. Nacua/carlo-a-nacua.png', 'service_image' => 'Carlo A. Nacua/programmer.png' ),
+    array( 'role' => 'Technical Writer', 'name' => 'Jay Vee C. Bahian', 'tagline' => 'Turning Complex Technical Concepts into Clear Communication, Connecting Innovation with Understanding, and Making Knowledge Accessible to Everyone.', 'skills' => 'Technical documentation, research, and concise writing.', 'story' => 'Jay Vee believes strong communication makes good technology easier to understand, use, and trust.', 'ambition' => 'To make complex information clear and helpful for every kind of reader.', 'image' => 'Jay Vee C. Bahian/Jay-vee-c-bahian.png', 'service_image' => 'Jay Vee C. Bahian/technical-writer.png' ),
 );
 ?>
 
@@ -140,13 +136,16 @@ $team_members = array(
     </div>
     <div class="team-id-grid navid-home-team-grid">
       <?php foreach ( $team_members as $member_index => $member ) : ?>
-        <?php $image_path = get_template_directory() . '/assets/images/team/' . $member['image']; ?>
+        <?php
+        $profile_image = dirname( $member['image'] ) . '/profile.png';
+        $image_path    = get_template_directory() . '/assets/images/team/' . $profile_image;
+        ?>
         <article class="team-id-card team-card-fall" style="--team-card-index: <?php echo esc_attr( $member_index ); ?>" tabindex="0" role="button" aria-pressed="false" aria-label="<?php echo esc_attr( sprintf( __( 'Show ID details for %s', 'navid' ), $member['name'] ) ); ?>">
           <div class="team-id-card-inner">
             <div class="team-id-face team-id-front">
               <span class="team-id-role"><?php echo esc_html( $member['role'] ); ?></span>
               <?php if ( file_exists( $image_path ) ) : ?>
-                <img class="team-id-photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/team/' . $member['image'] ); ?>" alt="<?php echo esc_attr( $member['name'] ); ?>" loading="lazy" />
+                <img class="team-id-photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/team/' . $profile_image ); ?>" alt="<?php echo esc_attr( $member['name'] ); ?>" loading="lazy" />
               <?php else : ?>
                 <div class="team-id-mark" aria-hidden="true">TV</div>
               <?php endif; ?>
@@ -157,9 +156,10 @@ $team_members = array(
               <span class="team-id-role"><?php echo esc_html( $member['role'] ); ?></span>
               <dl class="team-id-details">
                 <div><dt><?php esc_html_e( 'Name', 'navid' ); ?></dt><dd><?php echo esc_html( $member['name'] ); ?></dd></div>
-                <div><dt><?php esc_html_e( 'ID Number', 'navid' ); ?></dt><dd><?php echo esc_html( $member['id'] ); ?></dd></div>
-                <div><dt><?php esc_html_e( 'Address', 'navid' ); ?></dt><dd><?php echo esc_html( $member['address'] ); ?></dd></div>
+                <div><dt><?php esc_html_e( 'Skills', 'navid' ); ?></dt><dd><?php echo esc_html( $member['skills'] ); ?></dd></div>
+                <div><dt><?php esc_html_e( 'Ambition', 'navid' ); ?></dt><dd><?php echo esc_html( $member['ambition'] ); ?></dd></div>
               </dl>
+              <button class="team-story-button" type="button" data-name="<?php echo esc_attr( $member['name'] ); ?>" data-role="<?php echo esc_attr( $member['role'] ); ?>" data-story="<?php echo esc_attr( $member['tagline'] . ' ' . $member['story'] . ' ' . $member['ambition'] ); ?>"><?php esc_html_e( 'More info', 'navid' ); ?></button>
               <span class="team-id-hint"><?php esc_html_e( 'Click to return', 'navid' ); ?></span>
             </div>
           </div>
@@ -230,7 +230,7 @@ $team_members = array(
   <div class="container">
     <div class="navid-one-page-heading">
       <span><?php esc_html_e( 'About Us', 'navid' ); ?></span>
-      <h2 id="about-heading"><?php echo esc_html( $about_page ? $about_page->post_title : __( 'Meet the Team', 'navid' ) ); ?></h2>
+      <h2 id="about-heading"><?php esc_html_e( 'Meet the Team', 'navid' ); ?></h2>
     </div>
     <div class="navid-one-page-content">
       <?php
@@ -241,11 +241,55 @@ $team_members = array(
       }
       ?>
     </div>
-    <div class="navid-team-roles" role="list">
-      <span role="listitem"><?php esc_html_e( 'Project Management', 'navid' ); ?></span>
-      <span role="listitem"><?php esc_html_e( 'Data Analytics', 'navid' ); ?></span>
-      <span role="listitem"><?php esc_html_e( 'Programming', 'navid' ); ?></span>
-      <span role="listitem"><?php esc_html_e( 'Technical Writing', 'navid' ); ?></span>
+    <?php if ( false ) : // Replaced by the unified team portrait below. ?>
+    <div class="team-id-grid navid-about-profile-grid">
+      <?php foreach ( $team_members as $member ) : ?>
+        <?php $image_path = get_template_directory() . '/assets/images/team/' . $member['image']; ?>
+        <article class="team-id-card anim-up" tabindex="0" role="button" aria-pressed="false" aria-label="<?php echo esc_attr( sprintf( __( 'Show profile details for %s', 'navid' ), $member['name'] ) ); ?>">
+          <div class="team-id-card-inner">
+            <div class="team-id-face team-id-front">
+              <span class="team-id-role"><?php echo esc_html( $member['role'] ); ?></span>
+              <?php if ( file_exists( $image_path ) ) : ?>
+                <img class="team-id-photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/team/' . $member['image'] ); ?>" alt="<?php echo esc_attr( $member['name'] ); ?>" loading="lazy" />
+              <?php endif; ?>
+              <h3><?php echo esc_html( $member['name'] ); ?></h3>
+              <span class="team-id-hint"><?php esc_html_e( 'Select to discover their story', 'navid' ); ?></span>
+            </div>
+            <div class="team-id-face team-id-back">
+              <span class="team-id-role"><?php echo esc_html( $member['role'] ); ?></span>
+              <dl class="team-id-details">
+                <div><dt><?php esc_html_e( 'Name', 'navid' ); ?></dt><dd><?php echo esc_html( $member['name'] ); ?></dd></div>
+                <div><dt><?php esc_html_e( 'Skills', 'navid' ); ?></dt><dd><?php echo esc_html( $member['skills'] ); ?></dd></div>
+                <div><dt><?php esc_html_e( 'Story', 'navid' ); ?></dt><dd><?php echo esc_html( $member['story'] ); ?></dd></div>
+                <div><dt><?php esc_html_e( 'Ambition', 'navid' ); ?></dt><dd><?php echo esc_html( $member['ambition'] ); ?></dd></div>
+              </dl>
+              <button class="team-story-button" type="button" data-name="<?php echo esc_attr( $member['name'] ); ?>" data-role="<?php echo esc_attr( $member['role'] ); ?>" data-story="<?php echo esc_attr( $member['tagline'] . ' ' . $member['story'] . ' ' . $member['ambition'] ); ?>"><?php esc_html_e( 'More info', 'navid' ); ?></button>
+              <span class="team-id-hint"><?php esc_html_e( 'Select to return', 'navid' ); ?></span>
+            </div>
+          </div>
+        </article>
+      <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
+    <figure class="navid-team-portrait">
+      <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/team/Professional Team Portrait (1).png' ); ?>" alt="<?php esc_attr_e( 'TechVision team portrait', 'navid' ); ?>" loading="lazy" />
+    </figure>
+    <div class="navid-team-member-gallery" id="team-gallery">
+      <?php foreach ( $team_members as $member ) : ?>
+        <?php
+        $member_image_path = get_template_directory() . '/assets/images/team/' . $member['image'];
+        $member_profile    = get_page_by_path( sanitize_title( $member['name'] ), OBJECT, 'team_member' );
+        $member_url        = $member_profile ? get_permalink( $member_profile ) : '#';
+        ?>
+        <?php if ( file_exists( $member_image_path ) ) : ?>
+          <figure>
+            <a href="<?php echo esc_url( $member_url ); ?>" aria-label="<?php echo esc_attr( sprintf( __( 'View the profile of %s', 'navid' ), $member['name'] ) ); ?>">
+              <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/team/' . $member['image'] ); ?>" alt="<?php echo esc_attr( $member['name'] ); ?>" loading="lazy" />
+              <figcaption><?php echo esc_html( $member['name'] ); ?></figcaption>
+            </a>
+          </figure>
+        <?php endif; ?>
+      <?php endforeach; ?>
     </div>
   </div>
 </section>

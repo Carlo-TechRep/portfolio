@@ -58,6 +58,16 @@ $footer_width_class = ( 'full' === $footer_width ) ? 'container-fluid' : 'contai
   </div>
 </footer>
 
+<div class="team-story-modal" id="teamStoryModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="teamStoryModalTitle">
+  <div class="team-story-modal__backdrop" data-team-modal-close></div>
+  <div class="team-story-modal__dialog" role="document">
+    <button class="team-story-modal__close" type="button" aria-label="<?php esc_attr_e( 'Close story', 'navid' ); ?>" data-team-modal-close>&times;</button>
+    <span class="team-story-modal__role" id="teamStoryModalRole"></span>
+    <h2 id="teamStoryModalTitle"></h2>
+    <p id="teamStoryModalText"></p>
+  </div>
+</div>
+
 <?php wp_footer(); ?>
 </body>
 </html>
