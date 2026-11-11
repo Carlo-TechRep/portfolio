@@ -127,6 +127,15 @@ $team_members = array(
     array( 'role' => 'Programmer', 'name' => 'Carlo A. Nacua', 'tagline' => 'Transforming Creative Ideas into Powerful Code, Building Innovative Solutions, and Bringing Technology to Life.', 'skills' => 'Web development, programming logic, and debugging.', 'story' => 'Carlo enjoys the patient craft of turning an idea into working code, one detail and improvement at a time.', 'ambition' => 'To build dependable software that creates meaningful everyday impact.', 'image' => 'Carlo A. Nacua/carlo-a-nacua.png', 'service_image' => 'Carlo A. Nacua/programmer.png' ),
     array( 'role' => 'Technical Writer', 'name' => 'Jay Vee C. Bahian', 'tagline' => 'Turning Complex Technical Concepts into Clear Communication, Connecting Innovation with Understanding, and Making Knowledge Accessible to Everyone.', 'skills' => 'Technical documentation, research, and concise writing.', 'story' => 'Jay Vee believes strong communication makes good technology easier to understand, use, and trust.', 'ambition' => 'To make complex information clear and helpful for every kind of reader.', 'image' => 'Jay Vee C. Bahian/Jay-vee-c-bahian.png', 'service_image' => 'Jay Vee C. Bahian/technical-writer.png' ),
 );
+
+// Keep the public ID cards in sync with the editable Team Profile details.
+foreach ( $team_members as &$member ) {
+    $profile = get_page_by_path( sanitize_title( $member['name'] ), OBJECT, 'team_member' );
+    foreach ( array( 'id_number', 'address' ) as $field ) {
+        $member[ $field ] = $profile ? get_post_meta( $profile->ID, '_navid_team_' . $field, true ) : '';
+    }
+}
+unset( $member );
 ?>
 
 <section class="navid-one-page-section navid-home-team-section" id="home-team" aria-labelledby="home-team-heading">
@@ -156,10 +165,9 @@ $team_members = array(
               <span class="team-id-role"><?php echo esc_html( $member['role'] ); ?></span>
               <dl class="team-id-details">
                 <div><dt><?php esc_html_e( 'Name', 'navid' ); ?></dt><dd><?php echo esc_html( $member['name'] ); ?></dd></div>
-                <div><dt><?php esc_html_e( 'Skills', 'navid' ); ?></dt><dd><?php echo esc_html( $member['skills'] ); ?></dd></div>
-                <div><dt><?php esc_html_e( 'Ambition', 'navid' ); ?></dt><dd><?php echo esc_html( $member['ambition'] ); ?></dd></div>
+                <div><dt><?php esc_html_e( 'ID Number', 'navid' ); ?></dt><dd><?php echo esc_html( $member['id_number'] ); ?></dd></div>
+                <div><dt><?php esc_html_e( 'Address', 'navid' ); ?></dt><dd><?php echo esc_html( $member['address'] ); ?></dd></div>
               </dl>
-              <button class="team-story-button" type="button" data-name="<?php echo esc_attr( $member['name'] ); ?>" data-role="<?php echo esc_attr( $member['role'] ); ?>" data-story="<?php echo esc_attr( $member['tagline'] . ' ' . $member['story'] . ' ' . $member['ambition'] ); ?>"><?php esc_html_e( 'More info', 'navid' ); ?></button>
               <span class="team-id-hint"><?php esc_html_e( 'Click to return', 'navid' ); ?></span>
             </div>
           </div>
@@ -178,10 +186,10 @@ $team_members = array(
     <div class="navid-services-grid">
       <?php
       $service_descriptions = array(
-          'A successful project begins with a clear vision and strong leadership. As the Project Manager, I organize tasks, set achievable goals, manage timelines, and guide the team toward a shared purpose. Through clear communication, teamwork, and strategic planning, I help turn every idea into a meaningful achievement.',
-          'Every successful system begins with a deep understanding of the problem it aims to solve. As the System Analyst, I identify user needs, analyze system requirements, and transform complex challenges into practical and innovative solutions. I connect technology with real-world needs to create efficient and reliable systems.',
-          'Behind every functional system is the dedication to turn ideas into reality through programming. As the Programmer, I develop reliable applications, write efficient code, solve technical challenges, and improve system performance. With creativity and logical thinking, I build useful solutions that improve user experiences.',
-          'Technology becomes more valuable when people can understand and use it effectively. As the Technical Writer, I create clear, accurate, and well-organized documentation for system processes, features, and functionality. I bridge technical complexity and user understanding so every innovation is easy to explore.',
+          'I lead the team with clear goals, organized plans, and effective communication.',
+          'I analyze user needs and turn system requirements into practical solutions.',
+          'I build reliable applications with efficient code and practical problem-solving.',
+          'I make technical information clear, accurate, and easy to understand.',
       );
       foreach ( $team_members as $service_index => $member ) :
           $service_image_path = get_template_directory() . '/assets/images/team/' . $member['service_image'];
@@ -291,6 +299,37 @@ $team_members = array(
         <?php endif; ?>
       <?php endforeach; ?>
     </div>
+  </div>
+</section>
+
+<?php
+$goal_image = '';
+foreach ( array( 'graduation.jpg', 'graduation.jpeg', 'graduation.png', 'graduation.webp' ) as $goal_image_file ) {
+    $goal_image_path = get_template_directory() . '/assets/images/team/' . $goal_image_file;
+    if ( file_exists( $goal_image_path ) ) {
+        $goal_image = add_query_arg( 'ver', (string) filemtime( $goal_image_path ), get_template_directory_uri() . '/assets/images/team/' . $goal_image_file );
+        break;
+    }
+}
+?>
+<section class="navid-one-page-section navid-goal-section" id="goal" aria-labelledby="goal-heading">
+  <div class="container navid-goal-layout">
+    <div class="navid-one-page-heading">
+      <span><?php esc_html_e( 'Our Goal', 'navid' ); ?></span>
+      <h2 id="goal-heading"><?php esc_html_e( 'Graduate and Grow Together', 'navid' ); ?></h2>
+    </div>
+    <div class="navid-goal-card">
+      <p><?php esc_html_e( 'Together, our goal is to graduate, apply our skills, and build meaningful technology.', 'navid' ); ?></p>
+      <?php if ( $goal_image ) : ?>
+        <figure class="navid-goal-image"><img src="<?php echo esc_url( $goal_image ); ?>" alt="" loading="lazy" /></figure>
+      <?php endif; ?>
+    </div>
+    <div class="navid-goal-milestones" aria-label="<?php esc_attr_e( 'Goal milestones', 'navid' ); ?>">
+      <article><span class="navid-goal-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 9 9-5 9 5-9 5-9-5Zm4 3.2v4.1c0 1.2 2.2 2.7 5 2.7s5-1.5 5-2.7v-4.1M21 10v6" /></svg></span><h3><?php esc_html_e( 'Graduate', 'navid' ); ?></h3></article>
+      <article><span class="navid-goal-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 5l-4 14" /></svg></span><h3><?php esc_html_e( 'Build', 'navid' ); ?></h3></article>
+      <article><span class="navid-goal-icon" aria-hidden="true"><svg viewBox="M13 3c4.6 1.1 6.9 3.4 8 8-2.1 4.6-5.4 7.9-10 10-1.1-4.6-3.4-7.9-8-10 2.1-4.6 5.4-6.9 10-8Zm-1 7h.01M8 16l-3 3M16 8l3-3" /></svg></span><h3><?php esc_html_e( 'Launch', 'navid' ); ?></h3></article>
+    </div>
+    <p class="navid-goal-promise"><?php esc_html_e( 'We support each other from our final year to our first professional role.', 'navid' ); ?></p>
   </div>
 </section>
 

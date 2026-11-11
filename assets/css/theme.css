@@ -64,6 +64,10 @@ body.home .navid-contact-section {
   scroll-margin-top: calc(var(--header-h) + 24px);
 }
 
+#goal {
+  scroll-margin-top: calc(var(--header-h) + 24px);
+}
+
 .navid-one-page-section {
   padding: clamp(72px, 10vw, 130px) 0;
 }
@@ -90,14 +94,15 @@ body.home .navid-contact-section {
   flex-direction: column;
   justify-content: center;
   min-height: calc(100vh - var(--header-h));
-  padding-top: clamp(28px, 4vh, 52px);
+  /* The fixed header overlays the page, so reserve space before the title. */
+  padding-top: calc(var(--header-h) + clamp(20px, 3vh, 36px));
   padding-bottom: clamp(28px, 4vh, 52px);
   overflow: hidden;
 }
 
 .navid-home-team-section .team-id-grid {
   width: 100%;
-  max-width: 1380px;
+  max-width: 1120px;
   align-self: center;
   flex: 0 0 auto;
 }
@@ -156,7 +161,7 @@ body.home .navid-contact-section {
   .navid-team-scroll-stage {
     justify-content: flex-start;
     min-height: 100vh;
-    padding-top: 4px;
+    padding-top: calc(var(--header-h) + 12px);
     padding-bottom: 4px;
   }
 
@@ -412,9 +417,9 @@ body.home .navid-contact-form {
 
 .navid-home-team-section .navid-one-page-heading h2 {
   color: #fff;
-  font-size: clamp(2.25rem, 5vw, 4.25rem);
+  font-size: clamp(1.75rem, 3.6vw, 3.25rem);
   line-height: 1.05;
-  transform: translateY(18px);
+  transform: translateY(56px);
 }
 
 .navid-team-heading-vision {
@@ -427,8 +432,12 @@ body.home .navid-contact-form {
   text-align: center;
 }
 
+.navid-about-section .navid-one-page-heading { margin-bottom: 0; }
+.navid-about-section .navid-one-page-content p { margin: 0; }
+.navid-about-section .navid-team-portrait { margin-top: 0; }
+
 .navid-team-portrait {
-  max-width: 1250px;
+  max-width: 1150px;
   margin: 42px auto 0;
 }
 
@@ -455,6 +464,16 @@ body.home .navid-contact-form {
 .navid-team-member-gallery img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center top; }
 .navid-team-member-gallery figcaption { padding: 13px 10px; color: #fff; font-size: 14px; font-weight: 700; text-align: center; }
 @media (max-width: 700px) { .navid-team-member-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; } }
+
+.navid-goal-section { background-color: transparent; background-image: linear-gradient(rgba(3, 15, 28, .72), rgba(3, 15, 28, .82)), url('../images/team/background.png'); background-position: center; background-repeat: no-repeat; background-size: cover; background-attachment: fixed; }
+.navid-goal-section .navid-one-page-heading > span { color: #7dd3fc; }
+.navid-goal-section .navid-one-page-heading h2 { color: #fff; }
+.navid-goal-card { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(28px, 5vw, 64px); max-width: 1120px; margin: 0 auto; padding: clamp(28px, 5vw, 52px); align-items: center; text-align: left; background: linear-gradient(145deg, rgba(16, 43, 66, .95), rgba(6, 16, 26, .95)); border: 1px solid rgba(125, 211, 252, .42); border-radius: 24px; box-shadow: 0 20px 45px rgba(0, 0, 0, .24); }
+.navid-goal-card p { margin: 0; color: rgba(255, 255, 255, .9); font-size: clamp(18px, 2vw, 24px); font-weight: 600; line-height: 1.55; }
+.navid-goal-image { margin: 0; overflow: hidden; border-radius: 18px; }
+.navid-goal-image img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.navid-goal-milestones, .navid-goal-promise { display: none; }
+@media (max-width: 700px) { .navid-goal-card { grid-template-columns: 1fr; text-align: center; } }
 
 .navid-contact-layout {
   display: grid;
@@ -6850,13 +6869,13 @@ body .wp-block-button.is-style-outline .wp-block-button__link:not(.has-text-colo
 .team-section-heading h2 { margin: 10px 0 12px; color: #fff; font-size: clamp(38px, 5vw, 66px); line-height: 1; }
 .team-section-heading h2 em { color: #16c8ff; font-style: normal; }
 .team-section-heading p { color: rgba(255,255,255,0.82); font-size: clamp(16px, 1.5vw, 20px); }
-.team-id-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; max-width: 1380px; margin: 42px auto 0; }
-.team-id-card { min-height: 610px; color: #fff; perspective: 1100px; -webkit-perspective: 1100px; cursor: pointer; opacity: 0; transform: translateY(28px); transition: transform .55s cubic-bezier(.22,1,.36,1), opacity .55s ease; }
+.team-id-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; max-width: 1120px; margin: 42px auto 0; }
+.team-id-card { min-height: 510px; color: #fff; perspective: 1100px; -webkit-perspective: 1100px; cursor: pointer; opacity: 0; transform: translateY(28px); transition: transform .55s cubic-bezier(.22,1,.36,1), opacity .55s ease; }
 .team-id-card:nth-child(2) { transition-delay: .08s; }.team-id-card:nth-child(3) { transition-delay: .16s; }.team-id-card:nth-child(4) { transition-delay: .24s; }
 .team-id-card.is-visible { opacity: 1; transform: translateY(0); }
 .team-id-card:hover { transform: translateY(-8px); }
 .team-id-card:focus-visible { outline: 3px solid #7dd3fc; outline-offset: 4px; border-radius: 14px; }
-.team-id-card-inner { position: relative; width: 100%; height: 100%; min-height: 610px; transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1); transform-style: preserve-3d; -webkit-transform-style: preserve-3d; will-change: transform; }
+.team-id-card-inner { position: relative; width: 100%; height: 100%; min-height: 510px; transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1); transform-style: preserve-3d; -webkit-transform-style: preserve-3d; will-change: transform; }
 .team-id-card.is-flipped .team-id-card-inner { transform: rotateY(180deg) scale(1.015); }
 .team-id-face { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 22px; overflow: hidden; background: linear-gradient(145deg, #10263a, #06101a); border: 1px solid rgba(54, 180, 255, 0.48); border-radius: 28px; box-shadow: 0 16px 35px rgba(0, 0, 0, 0.28); backface-visibility: hidden; -webkit-backface-visibility: hidden; }
 .team-id-face::before { position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, rgba(125,211,252,.13) 50%, transparent 70%); content: ''; transform: translateX(-130%); transition: transform .75s ease; pointer-events: none; }
@@ -6865,7 +6884,7 @@ body .wp-block-button.is-style-outline .wp-block-button__link:not(.has-text-colo
 .team-id-back { background: linear-gradient(145deg, #0d2233, #07111b); border-color: rgba(125, 211, 252, 0.7); transform: rotateY(180deg); }
 .team-id-role { display: inline-flex; align-self: center; align-items: center; justify-content: center; min-height: 36px; padding: 0 16px; color: #fff; font-size: 11px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; background: rgba(3, 17, 30, 0.88); border: 2px solid #12c8ff; border-radius: 999px; box-shadow: inset 0 0 18px rgba(18, 200, 255, 0.16); }
 .team-id-mark { display: grid; width: 54px; height: 54px; margin: 26px 0; place-items: center; color: #0f172a; font-size: 19px; font-weight: 900; background: #7dd3fc; border-radius: 50%; }
-.team-id-photo { display: block; width: calc(100% + 44px); max-width: none; height: 380px; margin: -22px -22px 20px; object-fit: cover; object-position: center 35%; border: 0; border-bottom: 4px solid #12c8ff; border-radius: 26px 26px 45% 45%; }
+.team-id-photo { display: block; width: calc(100% + 44px); max-width: none; height: 300px; margin: -22px -22px 16px; object-fit: cover; object-position: center 35%; border: 0; border-bottom: 4px solid #12c8ff; border-radius: 26px 26px 45% 45%; }
 .team-id-front .team-id-photo { order: 1; }
 .team-id-front .team-id-role { order: 2; margin-top: -3px; }
 .team-id-front h3 { order: 3; }

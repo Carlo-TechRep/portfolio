@@ -766,7 +766,7 @@
 
   // Move the navigation underline as the visitor reaches the one-page sections.
   var onePageMenu = document.querySelector('.nav-menu');
-  var onePageSections = document.querySelectorAll('#about, #contact');
+  var onePageSections = document.querySelectorAll('#about, #goal, #contact');
   if (onePageMenu && onePageSections.length) {
 
     function setActiveSection(sectionId) {

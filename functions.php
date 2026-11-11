@@ -1348,6 +1348,7 @@ function navid_make_primary_menu_one_page( $items ) {
         'about'    => 'about',
         'about us' => 'about',
         'contact'  => 'contact',
+        'goal'     => 'goal',
     );
 
     foreach ( $items as $item ) {
@@ -1361,6 +1362,23 @@ function navid_make_primary_menu_one_page( $items ) {
     return $items;
 }
 add_filter( 'wp_nav_menu_objects', 'navid_make_primary_menu_one_page', 30, 1 );
+
+/** Add the homepage Goal section to the primary navigation. */
+function navid_add_goal_primary_menu_item( $items, $args ) {
+    if ( empty( $args->theme_location ) || 'primary' !== $args->theme_location || false !== stripos( $items, '>Goal<' ) ) {
+        return $items;
+    }
+
+    $goal_item = '<li class="menu-item navid-one-page-link"><a href="' . esc_url( home_url( '/#goal' ) ) . '">' . esc_html__( 'Goal', 'navid' ) . '</a></li>';
+    $items     = preg_replace( '/(<li\\b[^>]*>.*?<a\\b[^>]*>\\s*About(?:\\s+Us)?\\s*<\\/a>.*?<\\/li>)/is', '$1' . $goal_item, $items, 1, $inserted );
+
+    if ( ! $inserted ) {
+        $items .= $goal_item;
+    }
+
+    return $items;
+}
+add_filter( 'wp_nav_menu_items', 'navid_add_goal_primary_menu_item', 10, 2 );
 
 /**
  * Keep the WordPress administration toolbar out of the public site.
@@ -1429,7 +1447,7 @@ function navid_add_team_profile_meta_box() {
 add_action( 'add_meta_boxes_team_member', 'navid_add_team_profile_meta_box' );
 
 function navid_render_team_profile_meta_box( $post ) {
-    $fields = array( 'role' => __( 'Role', 'navid' ), 'birthdate' => __( 'Birthdate', 'navid' ), 'age' => __( 'Age', 'navid' ), 'religion' => __( 'Religion', 'navid' ), 'elementary_school' => __( 'Elementary School', 'navid' ), 'high_school' => __( 'High School', 'navid' ), 'college' => __( 'College', 'navid' ), 'skills' => __( 'Skills', 'navid' ), 'ambition' => __( 'Ambition', 'navid' ), 'hobby_image_1' => __( 'Hobby Image 1', 'navid' ), 'hobby_image_2' => __( 'Hobby Image 2', 'navid' ), 'hobby_image_3' => __( 'Hobby Image 3', 'navid' ), 'hobby_image_4' => __( 'Hobby Image 4', 'navid' ), 'image' => __( 'Image path', 'navid' ) );
+    $fields = array( 'role' => __( 'Role', 'navid' ), 'id_number' => __( 'ID Number', 'navid' ), 'address' => __( 'Address', 'navid' ), 'birthdate' => __( 'Birthdate', 'navid' ), 'age' => __( 'Age', 'navid' ), 'religion' => __( 'Religion', 'navid' ), 'elementary_school' => __( 'Elementary School', 'navid' ), 'high_school' => __( 'High School', 'navid' ), 'college' => __( 'College', 'navid' ), 'skills' => __( 'Skills', 'navid' ), 'ambition' => __( 'Ambition', 'navid' ), 'hobby_image_1' => __( 'Hobby Image 1', 'navid' ), 'hobby_image_2' => __( 'Hobby Image 2', 'navid' ), 'hobby_image_3' => __( 'Hobby Image 3', 'navid' ), 'hobby_image_4' => __( 'Hobby Image 4', 'navid' ), 'image' => __( 'Image path', 'navid' ) );
     wp_nonce_field( 'navid_save_team_profile', 'navid_team_profile_nonce' );
     echo '<table class="form-table">';
     foreach ( $fields as $key => $label ) {
@@ -1451,7 +1469,7 @@ function navid_save_team_profile_meta( $post_id ) {
     if ( ! isset( $_POST['navid_team_profile_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['navid_team_profile_nonce'] ) ), 'navid_save_team_profile' ) || defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE || ! current_user_can( 'edit_post', $post_id ) ) {
         return;
     }
-    foreach ( array( 'role', 'birthdate', 'age', 'religion', 'elementary_school', 'high_school', 'college', 'skills', 'ambition', 'hobby_image_1', 'hobby_image_2', 'hobby_image_3', 'hobby_image_4', 'image' ) as $key ) {
+    foreach ( array( 'role', 'id_number', 'address', 'birthdate', 'age', 'religion', 'elementary_school', 'high_school', 'college', 'skills', 'ambition', 'hobby_image_1', 'hobby_image_2', 'hobby_image_3', 'hobby_image_4', 'image' ) as $key ) {
         if ( isset( $_POST[ 'navid_team_' . $key ] ) ) {
             update_post_meta( $post_id, '_navid_team_' . $key, sanitize_textarea_field( wp_unslash( $_POST[ 'navid_team_' . $key ] ) ) );
         }
