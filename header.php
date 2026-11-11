@@ -47,7 +47,7 @@ if ( 'dark' === $default_mode ) {
 
 <?php if ( is_front_page() ) : ?>
   <?php $puzzle_image_url = wp_get_upload_dir()['baseurl'] . '/2026/11/hero-background.png'; ?>
-  <div class="navid-preloader navid-puzzle-preloader" id="navidPreloader" role="status" aria-label="<?php esc_attr_e( 'Opening TechVision', 'navid' ); ?>">
+  <div class="navid-preloader navid-puzzle-preloader" id="navidPreloader" role="status" aria-label="<?php esc_attr_e( 'Opening OurTeam', 'navid' ); ?>">
     <div class="navid-puzzle-grid" aria-hidden="true">
       <?php for ( $row = 0; $row < 4; $row++ ) : ?>
         <?php for ( $column = 0; $column < 5; $column++ ) : ?>

@@ -138,13 +138,23 @@
 
   // Open one hobby image at a time on click.
   document.querySelectorAll('.team-resume-hobby-images').forEach(function(gallery) {
+    var caption = gallery.nextElementSibling;
     gallery.querySelectorAll('img').forEach(function(image) {
-      image.addEventListener('click', function() {
+      function toggleHobby() {
         var wasActive = image.classList.contains('is-active');
-        gallery.querySelectorAll('img').forEach(function(item) { item.classList.remove('is-active'); });
+        gallery.querySelectorAll('img').forEach(function(item) { item.classList.remove('is-active'); item.setAttribute('aria-pressed', 'false'); });
         if (!wasActive) {
           image.classList.add('is-active');
+          image.setAttribute('aria-pressed', 'true');
         }
+        if (caption && caption.classList.contains('team-resume-hobby-caption')) {
+          caption.textContent = wasActive ? '' : image.dataset.hobbyLabel;
+          caption.classList.toggle('is-visible', !wasActive && !!image.dataset.hobbyLabel);
+        }
+      }
+      image.addEventListener('click', toggleHobby);
+      image.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); toggleHobby(); }
       });
     });
   });

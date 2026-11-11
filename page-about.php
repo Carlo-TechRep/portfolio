@@ -107,13 +107,13 @@ get_header();
   <div class="team-section-heading anim-up">
     <span><?php esc_html_e( 'About Us', 'navid' ); ?></span>
     <h2><?php esc_html_e( 'Meet the', 'navid' ); ?> <em><?php esc_html_e( 'Team', 'navid' ); ?></em></h2>
-    <p><?php esc_html_e( 'The people behind TechVision — combining creativity, technical skills, and teamwork.', 'navid' ); ?></p>
+    <p><?php esc_html_e( 'The people behind OurTeam — combining creativity, technical skills, and teamwork.', 'navid' ); ?></p>
   </div>
   <div class="team-id-grid">
     <?php
     $team_members = array(
         array( 'role' => 'Project Manager', 'name' => 'Wilan Jomart J. Satur', 'skills' => 'Project planning, team coordination, and clear communication.', 'story' => 'Wilan enjoys bringing people and ideas together, turning a shared goal into a focused and supportive team effort.', 'ambition' => 'To lead projects that make technology more useful and accessible for the community.', 'image' => 'Wilan Jomart J. Satur/wilan-jomart-j-satur.png' ),
-        array( 'role' => 'System Analyst', 'name' => 'Jhon Phillip V. Polison', 'skills' => 'Requirements analysis, process design, and problem solving.', 'story' => 'Jhon is drawn to understanding how things work and finding thoughtful ways to make systems clearer and more reliable.', 'ambition' => 'To design practical digital solutions that solve real-world needs.', 'image' => 'Jhon Phillip V. Polison/jhon-phillip-v-polison.jpg' ),
+        array( 'role' => 'System Analyst', 'name' => 'Jhon Phillip V. Polison', 'skills' => 'Requirements analysis, process design, and problem solving.', 'story' => 'Jhon is drawn to understanding how things work and finding thoughtful ways to make systems clearer and more reliable.', 'ambition' => 'To design practical digital solutions that solve real-world needs.', 'image' => 'Jhon Phillip V. Polison/john-phillip-v-polison.jpg' ),
         array( 'role' => 'Programmer', 'name' => 'Carlo A. Nacua', 'skills' => 'Web development, programming logic, and debugging.', 'story' => 'Carlo enjoys the patient craft of turning an idea into working code, one detail and improvement at a time.', 'ambition' => 'To build dependable software that creates meaningful everyday impact.', 'image' => 'Carlo A. Nacua/carlo-a-nacua.png' ),
         array( 'role' => 'Technical Writer', 'name' => 'Jay Vee C. Bahian', 'skills' => 'Technical documentation, research, and concise writing.', 'story' => 'Jay Vee believes strong communication makes good technology easier to understand, use, and trust.', 'ambition' => 'To make complex information clear and helpful for every kind of reader.', 'image' => 'Jay Vee C. Bahian/Jay-vee-c-bahian.png' ),
     );

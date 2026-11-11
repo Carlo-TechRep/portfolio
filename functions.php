@@ -1416,7 +1416,7 @@ function navid_seed_team_member_profiles() {
 
     $profiles = array(
         array( 'name' => 'Wilan Jomart J. Satur', 'role' => 'Project Manager', 'image' => 'Wilan Jomart J. Satur/wilan-jomart-j-satur.png', 'skills' => 'Project planning, team coordination, and clear communication.', 'ambition' => 'To lead projects that make technology more useful and accessible for the community.', 'favorites' => 'Team collaboration, organized planning, and meaningful results.' ),
-        array( 'name' => 'Jhon Phillip V. Polison', 'role' => 'System Analyst', 'image' => 'Jhon Phillip V. Polison/jhon-phillip-v-polison.jpg', 'skills' => 'Requirements analysis, process design, and problem solving.', 'ambition' => 'To design practical digital solutions that solve real-world needs.', 'favorites' => 'Research, process mapping, and solving complex problems.' ),
+        array( 'name' => 'Jhon Phillip V. Polison', 'role' => 'System Analyst', 'image' => 'Jhon Phillip V. Polison/john-phillip-v-polison.jpg', 'skills' => 'Requirements analysis, process design, and problem solving.', 'ambition' => 'To design practical digital solutions that solve real-world needs.', 'favorites' => 'Research, process mapping, and solving complex problems.' ),
         array( 'name' => 'Carlo A. Nacua', 'role' => 'Programmer', 'image' => 'Carlo A. Nacua/carlo-a-nacua.png', 'skills' => 'Web development, programming logic, and debugging.', 'ambition' => 'To build dependable software that creates meaningful everyday impact.', 'favorites' => 'Coding, technical puzzles, and building useful features.' ),
         array( 'name' => 'Jay Vee C. Bahian', 'role' => 'Technical Writer', 'image' => 'Jay Vee C. Bahian/Jay-vee-c-bahian.png', 'skills' => 'Technical documentation, research, and concise writing.', 'ambition' => 'To make complex information clear and helpful for every kind of reader.', 'favorites' => 'Writing, research, and making technology easier to understand.' ),
     );
@@ -1447,7 +1447,7 @@ function navid_add_team_profile_meta_box() {
 add_action( 'add_meta_boxes_team_member', 'navid_add_team_profile_meta_box' );
 
 function navid_render_team_profile_meta_box( $post ) {
-    $fields = array( 'role' => __( 'Role', 'navid' ), 'id_number' => __( 'ID Number', 'navid' ), 'address' => __( 'Address', 'navid' ), 'birthdate' => __( 'Birthdate', 'navid' ), 'age' => __( 'Age', 'navid' ), 'religion' => __( 'Religion', 'navid' ), 'elementary_school' => __( 'Elementary School', 'navid' ), 'high_school' => __( 'High School', 'navid' ), 'college' => __( 'College', 'navid' ), 'skills' => __( 'Skills', 'navid' ), 'ambition' => __( 'Ambition', 'navid' ), 'hobby_image_1' => __( 'Hobby Image 1', 'navid' ), 'hobby_image_2' => __( 'Hobby Image 2', 'navid' ), 'hobby_image_3' => __( 'Hobby Image 3', 'navid' ), 'hobby_image_4' => __( 'Hobby Image 4', 'navid' ), 'image' => __( 'Image path', 'navid' ) );
+    $fields = array( 'role' => __( 'Role', 'navid' ), 'id_number' => __( 'ID Number', 'navid' ), 'address' => __( 'Address', 'navid' ), 'email' => __( 'Email Address', 'navid' ), 'facebook' => __( 'Facebook Profile URL', 'navid' ), 'birthdate' => __( 'Birthdate', 'navid' ), 'age' => __( 'Age', 'navid' ), 'religion' => __( 'Religion', 'navid' ), 'elementary_school' => __( 'Elementary School', 'navid' ), 'high_school' => __( 'High School', 'navid' ), 'college' => __( 'College', 'navid' ), 'skills' => __( 'Skills', 'navid' ), 'ambition' => __( 'Ambition', 'navid' ), 'motto' => __( 'Motto', 'navid' ), 'hobby_image_1' => __( 'Hobby Image 1', 'navid' ), 'hobby_label_1' => __( 'Hobby 1 Label', 'navid' ), 'hobby_image_2' => __( 'Hobby Image 2', 'navid' ), 'hobby_label_2' => __( 'Hobby 2 Label', 'navid' ), 'hobby_image_3' => __( 'Hobby Image 3', 'navid' ), 'hobby_label_3' => __( 'Hobby 3 Label', 'navid' ), 'hobby_image_4' => __( 'Hobby Image 4', 'navid' ), 'hobby_label_4' => __( 'Hobby 4 Label', 'navid' ), 'image' => __( 'Image path', 'navid' ) );
     wp_nonce_field( 'navid_save_team_profile', 'navid_team_profile_nonce' );
     echo '<table class="form-table">';
     foreach ( $fields as $key => $label ) {
@@ -1469,7 +1469,7 @@ function navid_save_team_profile_meta( $post_id ) {
     if ( ! isset( $_POST['navid_team_profile_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['navid_team_profile_nonce'] ) ), 'navid_save_team_profile' ) || defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE || ! current_user_can( 'edit_post', $post_id ) ) {
         return;
     }
-    foreach ( array( 'role', 'id_number', 'address', 'birthdate', 'age', 'religion', 'elementary_school', 'high_school', 'college', 'skills', 'ambition', 'hobby_image_1', 'hobby_image_2', 'hobby_image_3', 'hobby_image_4', 'image' ) as $key ) {
+    foreach ( array( 'role', 'id_number', 'address', 'email', 'facebook', 'birthdate', 'age', 'religion', 'elementary_school', 'high_school', 'college', 'skills', 'ambition', 'motto', 'hobby_image_1', 'hobby_label_1', 'hobby_image_2', 'hobby_label_2', 'hobby_image_3', 'hobby_label_3', 'hobby_image_4', 'hobby_label_4', 'image' ) as $key ) {
         if ( isset( $_POST[ 'navid_team_' . $key ] ) ) {
             update_post_meta( $post_id, '_navid_team_' . $key, sanitize_textarea_field( wp_unslash( $_POST[ 'navid_team_' . $key ] ) ) );
         }

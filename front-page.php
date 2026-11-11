@@ -123,7 +123,7 @@ $about_page   = get_page_by_path( 'about' );
 $contact_page = get_page_by_path( 'contact' );
 $team_members = array(
     array( 'role' => 'Project Manager', 'name' => 'Wilan Jomart J. Satur', 'tagline' => 'Leading with Vision, Managing with Purpose, and Turning Every Challenge into an Opportunity for Success.', 'skills' => 'Project planning, team coordination, and clear communication.', 'story' => 'Wilan enjoys bringing people and ideas together, turning a shared goal into a focused and supportive team effort.', 'ambition' => 'To lead projects that make technology more useful and accessible for the community.', 'image' => 'Wilan Jomart J. Satur/wilan-jomart-j-satur.png', 'service_image' => 'Wilan Jomart J. Satur/project-manager.png' ),
-    array( 'role' => 'System Analyst', 'name' => 'Jhon Phillip V. Polison', 'tagline' => 'Understanding Complex Problems, Discovering Smarter Possibilities, and Designing Solutions That Make a Difference.', 'skills' => 'Requirements analysis, process design, and problem solving.', 'story' => 'Jhon is drawn to understanding how things work and finding thoughtful ways to make systems clearer and more reliable.', 'ambition' => 'To design practical digital solutions that solve real-world needs.', 'image' => 'Jhon Phillip V. Polison/jhon-phillip-v-polison.jpg', 'service_image' => 'Jhon Phillip V. Polison/system-analyst.png' ),
+    array( 'role' => 'System Analyst', 'name' => 'Jhon Phillip V. Polison', 'tagline' => 'Understanding Complex Problems, Discovering Smarter Possibilities, and Designing Solutions That Make a Difference.', 'skills' => 'Requirements analysis, process design, and problem solving.', 'story' => 'Jhon is drawn to understanding how things work and finding thoughtful ways to make systems clearer and more reliable.', 'ambition' => 'To design practical digital solutions that solve real-world needs.', 'image' => 'Jhon Phillip V. Polison/john-phillip-v-polison.jpg', 'service_image' => 'Jhon Phillip V. Polison/system-analyst.png' ),
     array( 'role' => 'Programmer', 'name' => 'Carlo A. Nacua', 'tagline' => 'Transforming Creative Ideas into Powerful Code, Building Innovative Solutions, and Bringing Technology to Life.', 'skills' => 'Web development, programming logic, and debugging.', 'story' => 'Carlo enjoys the patient craft of turning an idea into working code, one detail and improvement at a time.', 'ambition' => 'To build dependable software that creates meaningful everyday impact.', 'image' => 'Carlo A. Nacua/carlo-a-nacua.png', 'service_image' => 'Carlo A. Nacua/programmer.png' ),
     array( 'role' => 'Technical Writer', 'name' => 'Jay Vee C. Bahian', 'tagline' => 'Turning Complex Technical Concepts into Clear Communication, Connecting Innovation with Understanding, and Making Knowledge Accessible to Everyone.', 'skills' => 'Technical documentation, research, and concise writing.', 'story' => 'Jay Vee believes strong communication makes good technology easier to understand, use, and trust.', 'ambition' => 'To make complex information clear and helpful for every kind of reader.', 'image' => 'Jay Vee C. Bahian/Jay-vee-c-bahian.png', 'service_image' => 'Jay Vee C. Bahian/technical-writer.png' ),
 );
@@ -131,7 +131,7 @@ $team_members = array(
 // Keep the public ID cards in sync with the editable Team Profile details.
 foreach ( $team_members as &$member ) {
     $profile = get_page_by_path( sanitize_title( $member['name'] ), OBJECT, 'team_member' );
-    foreach ( array( 'id_number', 'address' ) as $field ) {
+    foreach ( array( 'id_number', 'address', 'email', 'facebook' ) as $field ) {
         $member[ $field ] = $profile ? get_post_meta( $profile->ID, '_navid_team_' . $field, true ) : '';
     }
 }
@@ -141,7 +141,7 @@ unset( $member );
 <section class="navid-one-page-section navid-home-team-section" id="home-team" aria-labelledby="home-team-heading">
   <div class="container navid-team-scroll-stage">
     <div class="navid-one-page-heading">
-      <h2 id="home-team-heading"><?php esc_html_e( 'The People Behind ', 'navid' ); ?><span class="navid-team-heading-vision"><?php esc_html_e( 'TechVision', 'navid' ); ?></span></h2>
+      <h2 id="home-team-heading"><span class="navid-team-heading-vision"><?php esc_html_e( 'Our Team', 'navid' ); ?></span></h2>
     </div>
     <div class="team-id-grid navid-home-team-grid">
       <?php foreach ( $team_members as $member_index => $member ) : ?>
@@ -159,7 +159,7 @@ unset( $member );
                 <div class="team-id-mark" aria-hidden="true">TV</div>
               <?php endif; ?>
               <h3><?php echo esc_html( $member['name'] ); ?></h3>
-              <span class="team-id-hint"><?php esc_html_e( 'Click to view ID', 'navid' ); ?></span>
+              <span class="team-id-hint team-id-click-cue"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11V5a2 2 0 0 1 4 0v6m0-3a2 2 0 0 1 4 0v3m0-1a2 2 0 0 1 4 0v3c0 4.4-3.6 8-8 8h-1c-2.8 0-5.1-1.4-6.5-3.8L4 14.5a2 2 0 0 1 3.4-2L9 14" /></svg><?php esc_html_e( 'Click to view ID', 'navid' ); ?></span>
             </div>
             <div class="team-id-face team-id-back">
               <span class="team-id-role"><?php echo esc_html( $member['role'] ); ?></span>
@@ -280,7 +280,7 @@ unset( $member );
     </div>
     <?php endif; ?>
     <figure class="navid-team-portrait">
-      <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/team/Professional Team Portrait (1).png' ); ?>" alt="<?php esc_attr_e( 'TechVision team portrait', 'navid' ); ?>" loading="lazy" />
+      <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/team/Professional Team Portrait (1).png' ); ?>" alt="<?php esc_attr_e( 'OurTeam portrait', 'navid' ); ?>" loading="lazy" />
     </figure>
     <div class="navid-team-member-gallery" id="team-gallery">
       <?php foreach ( $team_members as $member ) : ?>
@@ -293,7 +293,10 @@ unset( $member );
           <figure>
             <a href="<?php echo esc_url( $member_url ); ?>" aria-label="<?php echo esc_attr( sprintf( __( 'View the profile of %s', 'navid' ), $member['name'] ) ); ?>">
               <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/team/' . $member['image'] ); ?>" alt="<?php echo esc_attr( $member['name'] ); ?>" loading="lazy" />
-              <figcaption><?php echo esc_html( $member['name'] ); ?></figcaption>
+              <figcaption>
+                <span class="navid-team-member-name"><?php echo esc_html( $member['name'] ); ?></span>
+                <span class="navid-team-click-cue"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11V5a2 2 0 0 1 4 0v6m0-3a2 2 0 0 1 4 0v3m0-1a2 2 0 0 1 4 0v3c0 4.4-3.6 8-8 8h-1c-2.8 0-5.1-1.4-6.5-3.8L4 14.5a2 2 0 0 1 3.4-2L9 14" /></svg><?php esc_html_e( 'Click to view profile', 'navid' ); ?></span>
+              </figcaption>
             </a>
           </figure>
         <?php endif; ?>
@@ -311,6 +314,14 @@ foreach ( array( 'graduation.jpg', 'graduation.jpeg', 'graduation.png', 'graduat
         break;
     }
 }
+$civil_service_image = '';
+foreach ( array( 'civil-service.jpg', 'civil-service.jpeg', 'civil-service.png', 'civil-service.webp' ) as $civil_service_image_file ) {
+    $civil_service_image_path = get_template_directory() . '/assets/images/team/' . $civil_service_image_file;
+    if ( file_exists( $civil_service_image_path ) ) {
+        $civil_service_image = add_query_arg( 'ver', (string) filemtime( $civil_service_image_path ), get_template_directory_uri() . '/assets/images/team/' . $civil_service_image_file );
+        break;
+    }
+}
 ?>
 <section class="navid-one-page-section navid-goal-section" id="goal" aria-labelledby="goal-heading">
   <div class="container navid-goal-layout">
@@ -323,6 +334,10 @@ foreach ( array( 'graduation.jpg', 'graduation.jpeg', 'graduation.png', 'graduat
       <?php if ( $goal_image ) : ?>
         <figure class="navid-goal-image"><img src="<?php echo esc_url( $goal_image ); ?>" alt="" loading="lazy" /></figure>
       <?php endif; ?>
+    </div>
+    <div class="navid-civil-service-card">
+      <?php if ( $civil_service_image ) : ?><figure class="navid-civil-service-image"><img src="<?php echo esc_url( $civil_service_image ); ?>" alt="" loading="lazy" /></figure><?php endif; ?>
+      <p class="navid-goal-next"><?php esc_html_e( 'To pass the Civil Service Examination in March 2027.', 'navid' ); ?></p>
     </div>
     <div class="navid-goal-milestones" aria-label="<?php esc_attr_e( 'Goal milestones', 'navid' ); ?>">
       <article><span class="navid-goal-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 9 9-5 9 5-9 5-9-5Zm4 3.2v4.1c0 1.2 2.2 2.7 5 2.7s5-1.5 5-2.7v-4.1M21 10v6" /></svg></span><h3><?php esc_html_e( 'Graduate', 'navid' ); ?></h3></article>
@@ -338,6 +353,19 @@ foreach ( array( 'graduation.jpg', 'graduation.jpeg', 'graduation.png', 'graduat
     <div class="navid-one-page-heading">
       <span><?php esc_html_e( 'Contact', 'navid' ); ?></span>
       <h2 id="contact-heading"><?php echo esc_html( $contact_page ? $contact_page->post_title : __( 'Get in Touch', 'navid' ) ); ?></h2>
+    </div>
+    <?php $team_contact_qrs = array( 'Wilan Jomart J. Satur' => 'Wilan Jomart J. Satur/wilan-qr.png', 'Jhon Phillip V. Polison' => 'Jhon Phillip V. Polison/jhon-qr.png', 'Carlo A. Nacua' => 'Carlo A. Nacua/carlo-qr.png', 'Jay Vee C. Bahian' => 'Jay Vee C. Bahian/jayvee-qr.png' ); ?>
+    <div class="navid-team-contacts">
+      <?php foreach ( $team_members as $member ) : ?>
+        <article>
+          <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/team/' . $member['image'] ); ?>" alt="<?php echo esc_attr( $member['name'] ); ?>" loading="lazy" />
+          <h3><?php echo esc_html( $member['name'] ); ?></h3>
+          <?php if ( $member['email'] ) : ?><a class="navid-team-contact-email" href="mailto:<?php echo esc_attr( antispambot( $member['email'] ) ); ?>"><span aria-hidden="true">✉</span><?php echo esc_html( antispambot( $member['email'] ) ); ?></a><?php else : ?><span class="navid-team-contact-empty">Email to be added</span><?php endif; ?>
+          <?php if ( $member['facebook'] ) : ?><a class="navid-team-contact-facebook" href="<?php echo esc_url( $member['facebook'] ); ?>" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">f</span><?php esc_html_e( 'Facebook profile', 'navid' ); ?></a><?php else : ?><span class="navid-team-contact-empty">Facebook link to be added</span><?php endif; ?>
+          <?php $contact_qr = isset( $team_contact_qrs[ $member['name'] ] ) ? $team_contact_qrs[ $member['name'] ] : ''; ?>
+          <?php if ( $contact_qr && file_exists( get_template_directory() . '/assets/images/team/' . $contact_qr ) ) : ?><img class="navid-team-contact-qr" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/team/' . $contact_qr ); ?>" alt="<?php echo esc_attr( sprintf( __( 'Scan %s’s contact QR code', 'navid' ), $member['name'] ) ); ?>" loading="lazy" /><?php endif; ?>
+        </article>
+      <?php endforeach; ?>
     </div>
     <div class="navid-contact-layout">
       <div class="navid-contact-copy">

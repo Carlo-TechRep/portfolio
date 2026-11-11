@@ -156,7 +156,7 @@ if ( has_action( "navid_render_hero_{$hero_layout}" ) ) {
                 <div class="hero-ticker-info">
                   <span class="hero-ticker-cat"><?php echo esc_html( $highlight['category'] ); ?></span>
                   <h5 class="hero-ticker-title"><?php echo esc_html( $highlight['title'] ); ?></h5>
-                  <span class="hero-ticker-meta">TechVision Team</span>
+                  <span class="hero-ticker-meta">OurTeam</span>
                 </div>
               </a>
               <?php
