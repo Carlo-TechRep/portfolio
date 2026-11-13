@@ -22,7 +22,7 @@ The website includes:
 ## Team Members and Responsibilities
 
 | Member | Position | Responsibilities |
-|---|---|---|
+
 | Wilan Jomart J. Satur | Project Manager | Plans project tasks, coordinates team members, monitors progress, and manages project documentation and repository updates. |
 | Jhon Phillip V. Polison | System Analyst | Analyzes project requirements, designs the system flow, identifies user needs, and prepares system-related documentation. |
 | Carlo A. Nacua | Programmer | Develops and customizes the WordPress website, writes and maintains the PHP, CSS, and JavaScript code, and resolves technical issues. |
