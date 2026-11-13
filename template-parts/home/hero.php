@@ -101,24 +101,6 @@ if ( has_action( "navid_render_hero_{$hero_layout}" ) ) {
         <?php endif; ?>
       <h1 class="hero-title"><?php echo wp_kses_post( $hero_title ); ?></h1>
       <p class="hero-excerpt"><?php echo esc_html( $hero_excerpt ); ?></p>
-      <div class="hero-bottom">
-        <?php if ( $btn_text && $btn_url ) : ?>
-        <a href="<?php echo esc_url( $btn_url ); ?>" class="hero-cta">
-          <?php echo esc_html( $btn_text ); ?>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
-        </a>
-        <?php endif; ?>
-        <?php $show_hero_meta = false; ?>
-        <?php if ( $show_hero_meta ) : ?>
-        <span class="hero-meta-inline">
-          <span><?php echo esc_html( $meta_author ); ?></span>
-          <span class="dot"></span>
-          <span><?php echo esc_html( $meta_date ); ?></span>
-          <span class="dot"></span>
-          <span><?php echo esc_html( $meta_extra ); ?></span>
-        </span>
-        <?php endif; ?>
-      </div>
     </div>
 
     <?php
